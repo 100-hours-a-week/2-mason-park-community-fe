@@ -1,0 +1,15 @@
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    width: 400px;
+
+    margin-bottom: 20px;
+}

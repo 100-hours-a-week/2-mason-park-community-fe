@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link rel="stylesheet" href="../common/index.css">
+    <link rel="stylesheet" href="./register.css">
+</head>
+<body id="root">
+    <main>
+        <section class="register-container">
+            <h1>회원가입</h1>
+
+            <form id="register-form">
+                <div class="input-container">
+                    <label class="input-label">프로필 사진</label>
+                    <span class="input-helper">*helper text</span>
+                    <div class="input-profile-img">+</div>
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">이메일*</lable>
+                    <input type="text" class="input-text" placeholder="이메일을 입력하세요" required>
+                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">비밀번호*</lable>
+                    <input class="input-text" placeholder="비밀번호를 입력하세요" required>
+                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">비밀번호 확인*</lable>
+                    <input class="input-text" placeholder="비밀번호를 한번 더 입력하세요" required>
+                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">닉네임*</lable>
+                    <input class="input-text" placeholder="닉네임을 입력하세요" required>
+                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                </div>
+            </form>
+            <button id="confirm-btn"> 회원가입 </button>
+            <a id="href" href="../login/login.html">로그인하러 가기</a>
+        </section>
+    </main>
+</body>
+</html>
