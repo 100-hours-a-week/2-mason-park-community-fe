@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../common/index.css">
+    <link rel="stylesheet" href="./login.css">
 </head>
 <body id="root">
     <main>
         <section class="login-container">
             <h1>로그인</h1>
-            <form>
+            <form id="login-form">
                 <div class="input-container">
                     <lable class="input-label">이메일</lable>
                     <input class="input" placeholder="이메일을 입력하세요" required>
@@ -17,11 +20,11 @@
                 <div class="input-container">
                     <lable class="input-label">비밀번호</lable>
                     <input class="input" placeholder="이메일을 입력하세요" required>
-                    <span class="input-helper"></span>
+                    <span class="input-helper">*비밀번호를 입력해주세요</span>
                 </div>
             </form>
             <button id="login-btn"> 로그인 </button>
-            <a id="register-link">회원가입</a>
+            <a id="register-href" href="../register/register.html">회원가입</a>
         </section>
     </main>
 </body>
