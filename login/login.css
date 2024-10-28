@@ -13,20 +13,5 @@
     height: 200px;
 }
 
-#login-btn {
-    width: 350px;
-    height: 30px;
 
-    color: white;
-    background-color: #aca0eb;
-    border-color: #aca0eb;
 
-    border-radius: 4px;
-
-    margin-bottom: 10px;
-}
-
-#register-href {
-    font-weight: 400;
-    font-size: 14px;
-}
