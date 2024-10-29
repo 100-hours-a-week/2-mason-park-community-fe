@@ -6,6 +6,7 @@
     <title>Post Detail</title>
     <link rel="stylesheet" href="../common/index.css">
     <link rel="stylesheet" href="./postDetail.css">
+    <link rel="stylesheet" href="./comment.css">
 </head>
 <body id="root">
     <main>
@@ -53,6 +54,62 @@
             </section>
         </section>
         <hr/>
+
+        <section class="comment-container">
+            <form id="comment-form">
+                <div class="input-container">
+                    <textarea class="input-textarea" placeholder="댓글을 남겨주세요"></textarea>
+                </div>
+                <button id="confirm-btn">
+                    댓글 등록
+                </button>
+            </form>
+            <section class="comment-list-container">
+                <div class="comment-detail-container">
+                    <div class="comment-detail-header">
+                        <div class="user-profile-container">
+                            <div class="user-profile-img"></div>
+                            <span class="user-profile-nickname">더미 작성자1</span>
+                        </div>
+                        <span class="span-time">
+                            2021-01-01 00:00:00
+                        </span>
+                        <div class="btn-container">
+                            <button class="small-btn">
+                                수정
+                            </button>
+                            <button class="small-btn">
+                                삭제
+                            </button>
+                        </div>
+                    </div>
+                    <article class="comment-content">
+                        댓글 내용 1
+                    </article>
+                </div><div class="comment-detail-container">
+                    <div class="comment-detail-header">
+                        <div class="user-profile-container">
+                            <div class="user-profile-img"></div>
+                            <span class="user-profile-nickname">더미 작성자1</span>
+                        </div>
+                        <span class="span-time">
+                            2021-01-01 00:00:00
+                        </span>
+                        <div class="btn-container">
+                            <button class="small-btn">
+                                수정
+                            </button>
+                            <button class="small-btn">
+                                삭제
+                            </button>
+                        </div>
+                    </div>
+                    <article class="comment-content">
+                        댓글 내용 2
+                    </article>
+                </div>
+            </section>
+        </section>
     </main>
 </body>
 </html>
