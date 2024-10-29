@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Post List</title>
+    <link rel="stylesheet" href="../common/index.css">
+    <link rel="stylesheet" href="./postCreate.css">
+</head>
+<body id="root">
+    <main>
+        <section class="post-create-container">
+            <h1>
+                게시글 작성
+            </h1>
+            <form id="post-form">
+                <div class="input-container">
+                    <lable class="input-label">제목*</lable>
+                    <input type="text" class="input-text" placeholder="제목을 입력해주세요.(최대 26글자)">
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">내용*</lable>
+                    <textarea class="input-textarea" placeholder="내용을 입력해주세요"></textarea>
+                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">이미지</lable>
+                    <input type="file" class="input-file" placeholder="파일을 선택해주세요.">
+                </div>
+            </form>
+            <button id="confirm-btn">완료</button>
+        </section>
+    </main>
+</body>
+</html>

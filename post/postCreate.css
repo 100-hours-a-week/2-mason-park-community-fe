@@ -1,0 +1,16 @@
+.post-create-container {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    width: 100%;
+}
+
+#post-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    width: 100%;
+}
