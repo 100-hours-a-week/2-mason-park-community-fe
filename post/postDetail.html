@@ -10,9 +10,37 @@
 </head>
 <body id="root">
     <main>
+        <div id="post-detail-modal" class="modal-container">
+            <div class="modal-box">
+                <p class="modal-title">게시글을 삭제하시겠습니까?</p>
+                <p class="modal-content">삭제한 내용은 복구할 수 없습니다.</p>
+                <div class="modal-btn-container">
+                    <div class="modal-confirm-btn">
+                        취소
+                    </div>
+                    <div class="modal-cancel-btn">
+                        확인
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="comment-detail-modal" class="modal-container">
+            <div class="modal-box">
+                <p class="modal-title">게시글을 삭제하시겠습니까?</p>
+                <p class="modal-content">삭제한 내용은 복구할 수 없습니다.</p>
+                <div class="modal-btn-container">
+                    <div class="modal-confirm-btn">
+                        취소
+                    </div>
+                    <div class="modal-cancel-btn">
+                        확인
+                    </div>
+                </div>
+            </div>
+        </div>
         <section class="post-detail-container">
             <section class="post-detail-header-container">
-                <h1>제목 1</h1>
+                <h2>제목 1</h2>
                 <div class="post-detail-header">
                     <div class="user-profile-container">
                         <div class="user-profile-img"></div>
@@ -22,12 +50,12 @@
                         2021-01-01 00:00:00
                     </span>
                     <div class="btn-container">
-                        <button class="small-btn">
+                        <div class="small-btn">
                             수정
-                        </button>
-                        <button class="small-btn">
+                        </div>
+                        <div class="small-btn">
                             삭제
-                        </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -40,30 +68,30 @@
             </section>
             <section class="post-detail-meta-container">
                 <div class="post-detail-meta">
-                    <span class="span-bold">123</span>
-                    <span class="span-bold">좋아요 수</span>
+                    <span class="span-bold-20">123</span>
+                    <span class="span-bold-16">좋아요 수</span>
                 </div>
                 <div class="post-detail-meta">
-                    <span class="span-bold">123</span>
-                    <span class="span-bold">조회수</span>
+                    <span class="span-bold-20">123</span>
+                    <span class="span-bold-16">조회수</span>
                 </div>
                 <div class="post-detail-meta">
-                    <span class="span-bold">123</span>
-                    <span class="span-bold">댓글</span>
+                    <span class="span-bold-20">123</span>
+                    <span class="span-bold-16">댓글</span>
                 </div>
             </section>
         </section>
         <hr/>
 
         <section class="comment-container">
-            <form id="comment-form">
+            <div class="comment-box">
                 <div class="input-container">
                     <textarea class="input-textarea" placeholder="댓글을 남겨주세요"></textarea>
                 </div>
-                <button id="confirm-btn">
+                <div class="confirm-btn">
                     댓글 등록
-                </button>
-            </form>
+                </div>
+            </div>
             <section class="comment-list-container">
                 <div class="comment-detail-container">
                     <div class="comment-detail-header">
@@ -75,37 +103,16 @@
                             2021-01-01 00:00:00
                         </span>
                         <div class="btn-container">
-                            <button class="small-btn">
+                            <div class="small-btn">
                                 수정
-                            </button>
-                            <button class="small-btn">
+                            </div>
+                            <div class="small-btn">
                                 삭제
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <article class="comment-content">
                         댓글 내용 1
-                    </article>
-                </div><div class="comment-detail-container">
-                    <div class="comment-detail-header">
-                        <div class="user-profile-container">
-                            <div class="user-profile-img"></div>
-                            <span class="user-profile-nickname">더미 작성자1</span>
-                        </div>
-                        <span class="span-time">
-                            2021-01-01 00:00:00
-                        </span>
-                        <div class="btn-container">
-                            <button class="small-btn">
-                                수정
-                            </button>
-                            <button class="small-btn">
-                                삭제
-                            </button>
-                        </div>
-                    </div>
-                    <article class="comment-content">
-                        댓글 내용 2
                     </article>
                 </div>
             </section>

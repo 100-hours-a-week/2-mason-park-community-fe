@@ -51,11 +51,16 @@ h1 {
 
 /* span */
 .span-time {
-    font-size: 12px;
+    font-size: 14px;
 }
 
-.span-bold {
+.span-bold-20 {
     font-size: 20px;
+    font-weight: 700;
+}
+
+.span-bold-16 {
+    font-size: 16px;
     font-weight: 700;
 }
 
@@ -110,11 +115,9 @@ h1 {
     resize: none;
     color: black;
     border: none;
-    border-bottom: 2px solid #d9d9d9;
     outline: none;
 
     padding: 20px;
-    margin-bottom: 10px;
 }
 
 .input-profile-img-label {
@@ -168,10 +171,18 @@ a:link, a:visited {
 
 .small-btn {
     width: 50px;
-    height: 30px;
-
+    height: 27px;
 
     border-radius: 8px;
+    border: 1px solid #aca0eb;
+
+    padding: 0 6px;
+    box-sizing: border-box;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 27px;
+    text-align: center;
 }
 
 /* div */
@@ -205,4 +216,81 @@ a:link, a:visited {
     line-height: 20px;
     font-size: 15px;
     font-weight: 700;
+}
+
+/* modal */
+.modal-container {
+    position: absolute;
+    display: none;
+
+    justify-content: center;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+    position: absolute;
+    top: 50%;
+    transform:translateY(-50%);
+
+    width: 408px;
+    height: 242px;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    background-color: white;
+    border-radius: 12px;
+    text-align: center;
+
+    z-index: 1;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.modal-content {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.modal-btn-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.modal-confirm-btn {
+    width: 127px;
+    height: 44px;
+
+    background-color: black;
+    color: white;
+
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 44px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.modal-cancel-btn {
+    width: 127px;
+    height: 44px;
+
+    background-color: #c4a5fa;
+    color: black;
+
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 44px;
+    text-align: center;
+    border-radius: 12px;
 }
