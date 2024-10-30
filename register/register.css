@@ -1,10 +1,12 @@
 .register-container {
     display: flex;
     flex-direction: column;
+
+    justify-content: center;
     align-items: center;
 }
 
-#register-form {
+.register-box {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -12,4 +14,14 @@
     width: 400px;
 
     margin-bottom: 20px;
+}
+
+.confirm-btn {
+    width: 355px;
+    height: 33px;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 33px;
+    text-align: center;
 }

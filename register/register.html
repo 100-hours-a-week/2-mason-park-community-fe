@@ -12,34 +12,36 @@
         <section class="register-container">
             <h1>회원가입</h1>
 
-            <form id="register-form">
-                <div class="input-container">
+            <div class="register-box">
+                <div class="input-profile-img-container">
                     <label class="input-label">프로필 사진</label>
-                    <span class="input-helper">*helper text</span>
-                    <div class="input-profile-img">+</div>
+                    <span class="span-helper"></span>
+                    <label for="profile-img" class="input-profile-img-label">+</label>
+                    <input id="profile-img" class="input-profile-img" type="file">
                 </div>
+                <br/>
                 <div class="input-container">
                     <lable class="input-label">이메일*</lable>
                     <input type="text" class="input-text" placeholder="이메일을 입력하세요" required>
-                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                    <span class="span-helper"></span>
                 </div>
                 <div class="input-container">
                     <lable class="input-label">비밀번호*</lable>
                     <input class="input-text" placeholder="비밀번호를 입력하세요" required>
-                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                    <span class="span-helper"></span>
                 </div>
                 <div class="input-container">
                     <lable class="input-label">비밀번호 확인*</lable>
                     <input class="input-text" placeholder="비밀번호를 한번 더 입력하세요" required>
-                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                    <span class="span-helper"></span>
                 </div>
                 <div class="input-container">
                     <lable class="input-label">닉네임*</lable>
                     <input class="input-text" placeholder="닉네임을 입력하세요" required>
-                    <span class="input-helper">*비밀번호를 입력해주세요</span>
+                    <span class="span-helper"></span>
                 </div>
-            </form>
-            <button id="confirm-btn"> 회원가입 </button>
+            </div>
+            <div class="confirm-btn"> 회원가입 </div>
             <a id="href" href="../login/login.html">로그인하러 가기</a>
         </section>
     </main>

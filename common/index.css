@@ -69,15 +69,27 @@ h1 {
 /* input */
 
 .input-container {
+    min-height: 80px;
+
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+}
+
+.input-profile-img-container {
+    min-height: 190px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
     margin-top: 10px;
 }
 
 .input-label{
     font-weight: 700;
     font-size: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
     line-height: 18px;
 }
 
@@ -100,20 +112,26 @@ h1 {
     margin-bottom: 10px;
 }
 
-.input-profile-img {
+.input-profile-img-label {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     background-color: #c4c4c4;
 
     color: black;
-    font-size: 44px;
+    font-size: 24px;
     font-weight: 100;
 
     text-align: center;
     line-height: 150px;
 
     align-self: center;
+
+    cursor: pointer;
+}
+
+.input-profile-img {
+    display: none;
 }
 
 .input-file {
