@@ -7,6 +7,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../common/index.css">
     <link rel="stylesheet" href="./login.css">
+    <!-- JS -->
+    <script defer type="module" src="./login.js"></script>
 </head>
 <body id="root">
     <main>
@@ -14,16 +16,16 @@
             <h1>로그인</h1>
             <div class="login-box">
                 <div class="input-container">
-                    <lable class="input-label">이메일</lable>
-                    <input class="input-text" placeholder="이메일을 입력하세요" required>
+                    <lable for="email" class="input-label">이메일</lable>
+                    <input id="email" class="input-text" placeholder="이메일을 입력하세요" required>
                 </div>
                 <div class="input-container">
-                    <lable class="input-label">비밀번호</lable>
-                    <input class="input-text" placeholder="비밀번호를 입력하세요" required>
-                    <span class="span-helper">* helper text</span>
+                    <lable for="password" class="input-label">비밀번호</lable>
+                    <input id="password" class="input-text" placeholder="비밀번호를 입력하세요" required>
+                    <span id="helper" class="span-helper"></span>
                 </div>
             </div>
-            <button class="confirm-btn"> 로그인 </button>
+            <div id="login" class="confirm-btn"> 로그인 </div>
             <a id="a-link" href="../register/register.html">회원가입</a>
         </section>
     </main>

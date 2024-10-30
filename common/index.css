@@ -139,6 +139,8 @@ a:link, a:visited {
     border-color: #aca0eb;
     border-radius: 4px;
     margin-bottom: 10px;
+
+    text-align: center;
 }
 
 .small-btn {
