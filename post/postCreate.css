@@ -7,7 +7,7 @@
     width: 100%;
 }
 
-#post-form {
+.post-create-box {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -15,6 +15,39 @@
     width: 100%;
 }
 
+.input-text {
+    height: 64px;
+    font-size: 16px;
+    font-weight: 700;
+
+    border: none;
+    border-radius: 0px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
+    padding: 0 20px;
+}
+
 .input-textarea {
     height: 300px;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.input-container {
+    margin-top: 26px;
+}
+
+.input-label {
+    font-size: 15px;
+}
+
+.confirm-btn {
+    width: 355px;
+    height: 33px;
+
+    line-height: 33px;
+    text-align: center;
+    font-size: 14px;
 }
