@@ -33,8 +33,6 @@ hr {
     border : 0px;
     border-top: 1px solid black;
     opacity: 0.16;
-
-    margin-bottom: 20px;
 }
 
 /* h */
@@ -42,6 +40,13 @@ h1 {
     font-weight: 700;
     font-size: 32px;
     line-height: 38px;
+}
+
+.h2-title {
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    line-height: 31px;
 }
 
 /* span */
