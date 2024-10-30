@@ -49,6 +49,12 @@ h1 {
     line-height: 31px;
 }
 
+/* p */
+.p-content {
+    font-size: 14px;
+    font-weight: 400;
+}
+
 /* span */
 .span-time {
     font-size: 14px;

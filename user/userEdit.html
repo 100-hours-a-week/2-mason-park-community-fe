@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Page</title>
+    <link rel="stylesheet" href="../common/index.css">
+    <link rel="stylesheet" href="userEdit.css">
+</head>
+<body id="root">
+    <main>
+        <div id="user-edit-modal" class="modal-container">
+            <div class="modal-box">
+                <p class="modal-title">회원탈퇴 하시겠습니까?</p>
+                <p class="modal-content">작성한 게시글과 댓글은 삭제됩니다.</p>
+                <div class="modal-btn-container">
+                    <div class="modal-confirm-btn">
+                        취소
+                    </div>
+                    <div class="modal-cancel-btn">
+                        확인
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="user-edit-container">
+            <h1>회원정보수정</h1>
+            <div class="user-edit-box">
+                <div class="input-profile-img-container">
+                    <label class="input-label">프로필 사진*</label>
+                    <span class="span-helper"></span>
+                    <label for="profile-img" class="input-profile-img-label">
+                        <span class="profile-img-edit-btn">변경</span>
+                    </label>
+                    <input id="profile-img" class="input-profile-img" type="file">
+                </div>
+                <br/>
+                <div class="input-container">
+                    <lable class="input-label">이메일*</lable>
+                    <p class="p-content">startupcode@gmail.com</p>
+                </div>
+                <div class="input-container">
+                    <lable class="input-label">닉네임*</lable>
+                    <input class="input-text" placeholder="닉네임을 입력하세요" required>
+                    <span class="span-helper"></span>
+                </div>
+            </div>
+            <div class="confirm-btn"> 수정하기 </div>
+            <a id="href">회원 탈퇴</a>
+        </section>
+    </main>
+</body>
+</html>

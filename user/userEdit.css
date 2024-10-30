@@ -1,0 +1,39 @@
+.user-edit-container {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.user-edit-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    width: 400px;
+
+    margin-bottom: 20px;
+}
+
+.profile-img-edit-btn {
+    width: 52px;
+    height: 27px;
+
+    border-radius: 25px;
+    border : 1px solid white;
+    padding: 3px 10px;
+
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 27px;
+
+    z-index: 10;
+}
+
+.confirm-btn {
+    width: 355px;
+    height: 33px;
+    line-height: 33px;
+}
