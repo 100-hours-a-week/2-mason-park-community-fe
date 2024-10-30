@@ -4,14 +4,21 @@
     align-items: center;
 }
 
-#login-form {
+.login-box {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-
     width: 400px;
-    height: 200px;
+    padding: 19px;
+    box-sizing: border-box;
 }
 
+.confirm-btn {
+    width: 355px;
+    height: 33px;
 
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+}
 

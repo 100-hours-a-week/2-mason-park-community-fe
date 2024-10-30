@@ -14,15 +14,17 @@ body {
     align-items: center;
 
     width: 100%;
+    min-height: 100vh;
     background-color: #f4f5f7;
 }
 
 main {
-    width: 600px;
+    width: 592px;
 
     display: flex;
     flex-direction: column;
 
+    justify-content: center;
     align-items: center;
 }
 
@@ -35,6 +37,13 @@ hr {
     margin-bottom: 20px;
 }
 
+/* h */
+h1 {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+}
+
 /* span */
 .span-time {
     font-size: 12px;
@@ -43,6 +52,18 @@ hr {
 .span-bold {
     font-size: 20px;
     font-weight: 700;
+}
+
+.span-helper {
+    font-size: 12px;
+    font-weight: 400;
+    color: #ff0000;
+}
+
+/* a */
+.a-link {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* input */
@@ -61,13 +82,11 @@ hr {
 }
 
 .input-text {
-    height: 30px;
-
-    border-radius: 5px;
-
+    height: 33px;
+    border-radius: 4px;
+    border: 1px solid black;
     padding-left: 10px;
-
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .input-textarea{
@@ -101,10 +120,6 @@ hr {
     margin-bottom: 10px;
 }
 
-.input-helper {
-    font-size: 12px;
-    color: #ff0000;
-}
 
 /* a */
 a:link, a:visited {
@@ -118,16 +133,11 @@ a:link, a:visited {
 }
 
 /* button */
-#confirm-btn {
-    width: 350px;
-    height: 30px;
-
+.confirm-btn {
     color: white;
     background-color: #aca0eb;
     border-color: #aca0eb;
-
     border-radius: 4px;
-
     margin-bottom: 10px;
 }
 
