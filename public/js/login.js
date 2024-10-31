@@ -1,4 +1,4 @@
-import {constants, regex} from "../common/util.js";
+import {constants, regex} from "../../util.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginData = {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loginButton.addEventListener("click", (e) => {
         // 로그인 요청 및 응답에 대한 처리
-        location.href = '../post/postList.html';
+        location.href = '../../views/postList.html';
     })
 
     // 이메일 유효성 검사
