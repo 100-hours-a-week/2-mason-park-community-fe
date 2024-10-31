@@ -7,11 +7,16 @@
     width: 100%;
 }
 
+.h2-title {
+    text-align: left;
+    line-height: 55px;
+}
+
 hr {
     margin-bottom: 30px;
 }
 
-.post-detail-header-container {
+.post-header-box {
     display: flex;
     flex-direction: column;
 
@@ -19,7 +24,7 @@ hr {
     margin-bottom: 20px;
 }
 
-.post-detail-header {
+.post-header {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -30,12 +35,7 @@ hr {
     margin-left: auto;
 }
 
-.post-detail-writer {
-    display: flex;
-    align-items: center;
-}
-
-.post-detail-content-container{
+.post-content-box {
     width: 100%;
 
     display: flex;
@@ -46,24 +46,25 @@ hr {
     margin-bottom: 30px;
 }
 
-.post-detail-image {
+.post-image {
     width: 544px;
     height: 306px;
-    background-color: #d9d9d9;
     margin : 20px 0;
+    object-fit: contain;
 }
-.post-detail-content {
+
+.post-content {
     width: 544px;
 }
 
-.post-detail-meta-container {
+.post-meta-box {
     display: flex;
     justify-content: space-between;
     width: 400px;
     margin-bottom: 30px;
 }
 
-.post-detail-meta {
+.post-meta {
     width: 116px;
     height: 77px;
 
@@ -74,4 +75,10 @@ hr {
 
     border-radius: 16px;
     background-color: #d9d9d9;
+}
+
+.profile-img-box{
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
 }

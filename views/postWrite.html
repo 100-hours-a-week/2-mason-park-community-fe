@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Post Create</title>
-    <link rel="stylesheet" href="../public/css/index.css">
-    <link rel="stylesheet" href="../public/css/postCreate.css">
+    <title>글쓰기</title>
+    <link rel="stylesheet" href="../public/css/common/style.css">
+    <link rel="stylesheet" href="../public/css/common/layout.css">
+    <link rel="stylesheet" href="../public/css/postWrite.css">
 </head>
 <body id="root">
     <main>
-        <section class="post-create-container">
-            <h2>
+        <section class="container-column">
+            <h2 class="h2-title">
                 게시글 작성
             </h2>
-            <div class="post-create-box">
-                <div class="input-container">
+            <div class="post-write-box">
+                <div class="input-box">
                     <lable for="title" class="input-label">제목*</lable>
                     <input id="title" type="text" class="input-text" placeholder="제목을 입력해주세요.(최대 26글자)">
                 </div>
-                <div class="input-container">
+                <div class="input-box">
                     <lable for="content" class="input-label">내용*</lable>
                     <textarea id="content" class="input-textarea" placeholder="내용을 입력해주세요"></textarea>
                     <span class="span-helper"></span>
                 </div>
-                <div class="input-container">
+                <div class="input-box">
                     <label for="image" class="input-label">이미지</label>
                     <input id="image" type="file" class="input-file">
 
                 </div>
             </div>
-            <div class="confirm-btn">완료</div>
+            <div class="a-btn">완료</div>
         </section>
     </main>
 </body>

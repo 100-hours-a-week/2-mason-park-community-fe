@@ -3,30 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>로그인</title>
     <!-- CSS -->
-    <link rel="stylesheet" href="../public/css/index.css">
+    <link rel="stylesheet" href="../public/css/common/style.css">
+    <link rel="stylesheet" href="../public/css/common/layout.css">
     <link rel="stylesheet" href="../public/css/login.css">
     <!-- JS -->
     <script defer type="module" src="../public/js/login.js"></script>
 </head>
 <body id="root">
     <main>
-        <section class="login-container">
-            <h1>로그인</h1>
+        <section class="container-column">
+            <h1 class="h1-title">로그인</h1>
             <div class="login-box">
-                <div class="input-container">
+                <div class="input-box">
                     <lable for="email" class="input-label">이메일</lable>
                     <input id="email" class="input-text" placeholder="이메일을 입력하세요" required>
                 </div>
-                <div class="input-container">
+                <div class="input-box">
                     <lable for="password" class="input-label">비밀번호</lable>
                     <input id="password" class="input-text" placeholder="비밀번호를 입력하세요" required>
                     <span id="helper" class="span-helper"></span>
                 </div>
             </div>
-            <div id="login" class="confirm-btn"> 로그인 </div>
-            <a id="a-link" href="register.html">회원가입</a>
+            <div id="login" class="a-btn"> 로그인 </div>
+            <a class="a-link" href="register.html">회원가입</a>
         </section>
     </main>
 </body>
