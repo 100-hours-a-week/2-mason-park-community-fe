@@ -1,0 +1,34 @@
+export const constants = {
+    "BLANK" : '',
+    "EMAIL_INVALID" : "* 올바른 이메일 주 형식을 입력해주세요. \n (예: example@example.com)",
+    "EMAIL_BLANK" : "* 이메일을 입력해주세요.",
+    "PASSWORD_BLANK" : "* 비밀번호를 입력해주세요.",
+    "PASSWORD_INVALID" : "* 비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 특수문자를 각각 최소 1개 포함해야 합니다.",
+    "PASSWORD_NOT_MATCH" : "* 비밀번호가 다릅니다.",
+    "CHECK_PASSWORD_BLANK" : "* 비밀번호를 한번 더 입력해주세요",
+    "NICKNAME_BLANK" : "* 닉네임을 입력해주세요.",
+    "NICKNAME_INCLUDE_SPACE" : "* 띄어쓰기를 없애주세요.",
+    "NICKNAME_EXCEED_MAX_LEN" : "* 닉네임은 최대 10자 까지 작성 가능합니다.",
+    "PROFILE_IMG_BLANK" : "* 프로필 사진을 추가해주세요."
+}
+
+export const validator = {
+    email(value) {
+        // 대소문자 / 숫자 / @ / . / _ / - 포함 가능
+        return  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i.test(value);
+    },
+    password(value) {
+        // 비밀번호는 8자 이상 / 20자 이하 / 대소문자, 숫자, 특수문자를 각각 최소 1개 포함
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(value);
+    },
+    checkPassword(origin, check) {
+        return origin === check;
+    },
+    nickname(value) {
+        return /^[가-힣a-zA-Z0-9]{2,10}$/.test(value);
+    }
+}
+
+export const limit = {
+    "NICKNAME_MAX_LEN": 10,
+}

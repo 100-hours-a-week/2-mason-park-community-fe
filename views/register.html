@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>회원가입</title>
+    <!-- CSS -->
     <link rel="stylesheet" href="/css/common/style.css">
     <link rel="stylesheet" href="/css/common/layout.css">
     <link rel="stylesheet" href="/css/register.css">
+
+    <!-- JS -->
+    <script defer type="module" src="js/register.js"></script>
 </head>
 <body id="root">
     <main>
@@ -16,36 +20,36 @@
             <div class="register-box">
                 <div class="input-profile-img-box">
                     <label class="input-label">프로필 사진</label>
-                    <span class="span-helper"></span>
-                    <div class="profile-img-box">
+                    <span id="profile-img-helper" class="span-helper">* 프로필 사진을 추가해주세요.</span>
+                    <label for="profile-img" class="profile-img-box">
                         <img class="image-cover" src="/image/plus.svg" alt="">
-                        <input id="profile-img" class="input-profile-img" type="file">
-                    </div>
+                        <input id="profile-img" class="input-profile-img input" type="file" accept="image/*">
+                    </label>
                 </div>
                 <br/>
                 <div class="input-box">
-                    <lable class="input-label">이메일*</lable>
-                    <input type="text" class="input-text" placeholder="이메일을 입력하세요" required>
-                    <span class="span-helper"></span>
+                    <lable for="email" class="input-label">이메일*</lable>
+                    <input id="email" type="text" class="input-text input" placeholder="이메일을 입력하세요">
+                    <span id="email-helper" class="span-helper">* 이메일을 입력해주세요.</span>
                 </div>
                 <div class="input-box">
-                    <lable class="input-label">비밀번호*</lable>
-                    <input class="input-text" placeholder="비밀번호를 입력하세요" required>
-                    <span class="span-helper"></span>
+                    <lable for="password" class="input-label">비밀번호*</lable>
+                    <input id="password" class="input-text input" placeholder="비밀번호를 입력하세요" type="password">
+                    <span id="password-helper" class="span-helper">* 비밀번호를 입력해주세요.</span>
                 </div>
                 <div class="input-box">
-                    <lable class="input-label">비밀번호 확인*</lable>
-                    <input class="input-text" placeholder="비밀번호를 한번 더 입력하세요" required>
-                    <span class="span-helper"></span>
+                    <lable for="check-password" class="input-label">비밀번호 확인*</lable>
+                    <input id="check-password" class="input-text input" placeholder="비밀번호를 한번 더 입력하세요" type="password">
+                    <span id="check-password-helper" class="span-helper">* 비밀번호를 한번더 입력해주세요.</span>
                 </div>
                 <div class="input-box">
-                    <lable class="input-label">닉네임*</lable>
-                    <input class="input-text" placeholder="닉네임을 입력하세요" required>
-                    <span class="span-helper"></span>
+                    <lable for="nickname" class="input-label">닉네임*</lable>
+                    <input id="nickname" class="input-text input" placeholder="닉네임을 입력하세요">
+                    <span id="nickname-helper"  class="span-helper">* 닉네임을 입력해주세요.</span>
                 </div>
             </div>
-            <div class="a-btn"> 회원가입 </div>
-            <a class="a-link" href="login.html">로그인하러 가기</a>
+            <div id="register" class="a-btn"> 회원가입 </div>
+            <a class="a-link" href="login">로그인하러 가기</a>
         </section>
     </main>
 </body>
