@@ -31,28 +31,28 @@ app.get('/posts', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'postList.html'));
 })
 
-// 글 상세 페이지
-app.get('/posts/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'postDetail.html'));
-})
-
 // 글 작성 페이지
 app.get('/posts/write', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'postWrite.html'));
 })
 
 // 글 수정 페이지
-app.get('/posts/modify', (req, res) => {
+app.get('/posts/:post_id/modify', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'postWrite.html'));
 })
 
+// 글 상세 페이지
+app.get('/posts/:post_id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'postDetail.html'));
+})
+
 // 회원 정보 수정 페이지
-app.get('/users/:id/setting', (req, res) => {
+app.get('/users/setting', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'userEdit.html'));
 })
 
 // 비밀번호 변경 페이지
-app.get('/users/:id/password', (req, res) => {
+app.get('/users/password', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'passwordEdit.html'));
 })
 
