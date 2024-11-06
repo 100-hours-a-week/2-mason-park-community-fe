@@ -1,3 +1,5 @@
+import Header from "../components/header/header.js";
+
 export const constants = {
     "BLANK" : '',
     "EMAIL_INVALID" : "* 올바른 이메일 주 형식을 입력해주세요. \n (예: example@example.com)",
@@ -9,7 +11,19 @@ export const constants = {
     "NICKNAME_BLANK" : "* 닉네임을 입력해주세요.",
     "NICKNAME_INCLUDE_SPACE" : "* 띄어쓰기를 없애주세요.",
     "NICKNAME_EXCEED_MAX_LEN" : "* 닉네임은 최대 10자 까지 작성 가능합니다.",
-    "PROFILE_IMG_BLANK" : "* 프로필 사진을 추가해주세요."
+    "PROFILE_IMG_BLANK" : "* 프로필 사진을 추가해주세요.",
+    "TITLE_CONTENT_BLANK" : "* 제목, 내용을 모두 작성해주세요.",
+    "MODIFY_URL" : "modify",
+    "MODIFY_TITLE" : "게시글 수정",
+    "MODIFY_USERS_INFO" : "회원정보수정",
+    "MODIFY_USERS_PASSWORD" : "비밀번호수정",
+    "LOGOUT" : "로그아웃",
+    "HEADER_TITLE" : "아무 말 대잔치"
+}
+
+export const images = {
+    "DEFAULT_PROFILE_IMAGE" : "/image/default-user.svg",
+    "BACK_BUTTON_IMAGE" : "/image/left.svg",
 }
 
 export const validator = {
@@ -30,5 +44,12 @@ export const validator = {
 }
 
 export const limit = {
+    "NICKNAME_MIN_LEN": 1,
     "NICKNAME_MAX_LEN": 10,
+    "TITLE_MIN_LEN": 1,
+    "TITLE_MAX_LEN": 26
+}
+
+export const setHeader = (header) => {
+    document.body.insertBefore(header, document.body.firstChild);
 }
