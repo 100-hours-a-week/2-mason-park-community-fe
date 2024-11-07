@@ -1,12 +1,13 @@
-import Header from "../components/header/header.js";
 
-export const constants = {
+// TODO : 사용 목적에 따라 분리
+export const strings = {
     "BLANK" : '',
     "EMAIL_INVALID" : "* 올바른 이메일 주 형식을 입력해주세요. \n (예: example@example.com)",
     "EMAIL_BLANK" : "* 이메일을 입력해주세요.",
     "PASSWORD_BLANK" : "* 비밀번호를 입력해주세요.",
     "PASSWORD_INVALID" : "* 비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 특수문자를 각각 최소 1개 포함해야 합니다.",
     "PASSWORD_NOT_MATCH" : "* 비밀번호가 다릅니다.",
+    "FAILED_LOGIN" : "* 입력하신 계정 정보가 정확하지 않았습니다.",
     "CHECK_PASSWORD_BLANK" : "* 비밀번호를 한번 더 입력해주세요",
     "NICKNAME_BLANK" : "* 닉네임을 입력해주세요.",
     "NICKNAME_INCLUDE_SPACE" : "* 띄어쓰기를 없애주세요.",
@@ -19,6 +20,17 @@ export const constants = {
     "MODIFY_USERS_PASSWORD" : "비밀번호수정",
     "LOGOUT" : "로그아웃",
     "HEADER_TITLE" : "아무 말 대잔치"
+}
+
+export const status = {
+    "OK" : 200,
+    "CREATED" : 201,
+    "NO_CONTENT": 204,
+    "BAD_REQUEST" : 400,
+    "UNAUTHORIZED" : 401,
+    "FORBIDDEN" : 403,
+    "NOT_FOUND" : 404,
+    "INTERNAL_SERVER_ERROR" : 500,
 }
 
 export const images = {
@@ -48,8 +60,4 @@ export const limit = {
     "NICKNAME_MAX_LEN": 10,
     "TITLE_MIN_LEN": 1,
     "TITLE_MAX_LEN": 26
-}
-
-export const setHeader = (header) => {
-    document.body.insertBefore(header, document.body.firstChild);
 }

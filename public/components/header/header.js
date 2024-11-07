@@ -1,4 +1,4 @@
-import { images } from "../../js/util.js";
+import { images } from "../../utils/constants.js";
 import DropBox from "./dropbox.js";
 
 const Header = (title, backBtn = false, profile = images.DEFAULT_PROFILE_IMAGE) => {

@@ -1,4 +1,4 @@
-import {constants} from "../../js/util.js";
+import {strings} from "../../utils/constants.js";
 
 const DropBox = () => {
     let dropboxContainer = document.createElement("div");
@@ -7,7 +7,7 @@ const DropBox = () => {
     // 회원 정보 수정
     let linkUserSetting = document.createElement("div");
     linkUserSetting.classList.add("dropbox");
-    linkUserSetting.textContent = constants.MODIFY_USERS_INFO;
+    linkUserSetting.textContent = strings.MODIFY_USERS_INFO;
     linkUserSetting.addEventListener("click", (e) => {
         window.location.href = '/users/setting';
     })
@@ -15,7 +15,7 @@ const DropBox = () => {
     // 비밀번호 수정
     let linkPassword = document.createElement("div");
     linkPassword.classList.add("dropbox");
-    linkPassword.textContent = constants.MODIFY_USERS_PASSWORD;
+    linkPassword.textContent = strings.MODIFY_USERS_PASSWORD;
     linkPassword.addEventListener("click", (e) => {
         window.location.href = '/users/password';
     })
@@ -23,7 +23,7 @@ const DropBox = () => {
     // 로그아웃
     let linkLogout = document.createElement("div");
     linkLogout.classList.add("dropbox");
-    linkLogout.textContent = constants.LOGOUT;
+    linkLogout.textContent = strings.LOGOUT;
     linkLogout.addEventListener("click", (e) => {
         // TODO : 세션 쿠키 제거
         window.location.href = '/login';
