@@ -1,4 +1,7 @@
-import {constants, validator} from "./util.js";
+import {strings, status, validator} from "../utils/constants.js";
+import { setHeader } from "../utils/function.js";
+import Header from "../components/header/header.js";
+import {loginRequest} from "../api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const data = {
@@ -7,15 +10,23 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const loginButton = document.querySelector("#login");
-
-    loginButton.addEventListener("click", (e) => {
-        // 로그인 요청 및 응답에 대한 처리
-        location.href = 'posts';
-    })
+    const helper = document.querySelector("#helper");
 
     // Helper Text 업데이트
     const updateHelper = (helperElement, message = '') => {
         helperElement.textContent = message;
+    }
+
+    const login = async () => {
+        const response = await loginRequest(data);
+
+        if (response.status !== status.OK) {
+            updateHelper(helper, strings.FAILED_LOGIN);
+            return;
+        }
+
+        // TODO: 쿠키 설정
+        location.href = '/posts';
     }
 
     // Login Data 업데이트
@@ -36,31 +47,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const inputEventHandler = (e, id) => {
-        const helper = document.querySelector("#helper");
         const value = e.target.value;
         if (id === 'email') {
             const isValid = validator.email(value);
             if (!value) {
-                updateHelper(helper, constants.BLANK);
+                updateHelper(helper, strings.BLANK);
             } else if (!isValid) {
-                updateHelper(helper, constants.EMAIL_INVALID);
+                updateHelper(helper, strings.EMAIL_INVALID);
             } else {
-                updateHelper(helper, constants.PASSWORD_BLANK);
+                updateHelper(helper, strings.PASSWORD_BLANK);
             }
         } else if (id === 'password') {
             const isValid = validator.password(value);
             if (!value) {
-                updateHelper(helper, constants.PASSWORD_BLANK);
+                updateHelper(helper, strings.PASSWORD_BLANK);
             } else if (!isValid) {
-                updateHelper(helper, constants.PASSWORD_INVALID);
+                updateHelper(helper, strings.PASSWORD_INVALID);
             } else {
-                updateHelper(helper, constants.BLANK);
+                updateHelper(helper, strings.BLANK);
             }
         }
         updateData(e, id);
     }
 
-    const addEventListenerInput = () => {
+    const setEventListener = () => {
         const inputs = document.querySelectorAll('input');
 
         inputs.forEach(input => {
@@ -70,10 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 inputEventHandler(e, id);
             })
         })
+
+        loginButton.addEventListener("click", login);
     }
 
     const init = () => {
-        addEventListenerInput();
+        setHeader(Header(
+            strings.HEADER_TITLE,
+            false
+        ));
+        setEventListener();
+        localStorage.clear();
+        document.cookie = '';
     }
 
     init();
