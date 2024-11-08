@@ -1,4 +1,4 @@
-import { status } from './constants';
+import { status } from './constants.js';
 
 export const setHeader = (header) => {
     document.body.insertBefore(header, document.body.firstChild);
