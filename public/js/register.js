@@ -1,5 +1,5 @@
 import {validator, status, strings} from "../utils/constants.js";
-import {setHeader} from "../utils/function.js";
+import {insertBeforeElement} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {existEmail, existNickname, loginRequest} from "../api/auth.js";
 
@@ -162,10 +162,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const init = () => {
-        setHeader(Header(
+        insertBeforeElement(Header(
             strings.HEADER_TITLE,
             true
-        ));
+        ), document.body);
         setEventListener();
     }
 

@@ -1,0 +1,144 @@
+{
+  "data": [
+    {
+      "post_id": 1,
+      "title": "123456789012345678901234567890",
+      "thumbs": 1,
+      "views": 1,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 2,
+      "title": "제목이26자가넘어가면 26자만보여줘야되는 문제가 있어요",
+      "thumbs": 1000,
+      "views": 1,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 3,
+      "title": "제목내용제목내용제목내용제목내용제목내용제목내용제목내용제목내용",
+      "thumbs": 10000,
+      "views": 1,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 4,
+      "title": "제목4",
+      "thumbs": 100000,
+      "views": 1,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 5,
+      "title": "제목5",
+      "thumbs": 100000,
+      "views": 1000,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 6,
+      "title": "제목6",
+      "thumbs": 100000,
+      "views": 10000,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 7,
+      "title": "제목7",
+      "thumbs": 100000,
+      "views": 100000,
+      "comments": 1,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 8,
+      "title": "제목8",
+      "thumbs": 100000,
+      "views": 100000,
+      "comments": 1000,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 9,
+      "title": "제목9",
+      "thumbs": 100000,
+      "views": 100000,
+      "comments": 10000,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "post_id": 10,
+      "title": "제목10",
+      "thumbs": 100000,
+      "views": 100000,
+      "comments": 100000,
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    }
+  ]
+}

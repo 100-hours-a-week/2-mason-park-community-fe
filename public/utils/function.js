@@ -1,7 +1,11 @@
 import { status } from './constants.js';
 
-export const setHeader = (header) => {
-    document.body.insertBefore(header, document.body.firstChild);
+export const insertBeforeElement = (child, parent) => {
+    parent.insertBefore(child, parent.firstChild);
+}
+
+export const appendChildElement = (child, parent) => {
+    parent.appendChild(child);
 }
 
 export const get = async (host, path, header = {}) => {
