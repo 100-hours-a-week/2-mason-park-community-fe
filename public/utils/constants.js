@@ -25,6 +25,8 @@ export const strings = {
     "MODAL_POST_DELETE_TITLE" : "게시글을 삭제하시겠습니까?",
     "MODAL_DELETE_CONTENT" : "삭제한 내용은 복구할 수 없습니다.",
     "MODAL_COMMENT_DELETE_TITLE" : "댓글을 삭제하시겠습니까?",
+    "MODAL_USER_DELETE_TITLE" : "회원탈퇴 하시겠습니가?",
+    "MODAL_USER_DELETE_CONTETN" : "작성한 게시글과 댓글을 삭제됩니다."
 }
 
 export const status = {

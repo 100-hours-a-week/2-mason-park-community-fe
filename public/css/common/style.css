@@ -50,6 +50,7 @@ hr {
 .a-link {
     font-size: 14px;
     font-weight: 400;
+    cursor: pointer;
 }
 
 /* input */
@@ -179,6 +180,7 @@ a:link, a:visited {
     height: 100vh;
 
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 
 .modal-box {
@@ -201,7 +203,7 @@ a:link, a:visited {
     flex-direction: column;
     justify-content: space-between;
 
-    z-index: 1;
+    z-index: 3;
 }
 
 .modal-title {

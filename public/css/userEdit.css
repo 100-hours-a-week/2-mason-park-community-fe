@@ -1,3 +1,7 @@
+main {
+    padding-top: 50px;
+}
+
 .user-edit-box {
     display: flex;
     flex-direction: column;
@@ -30,7 +34,7 @@
     font-size: 15px;
     line-height: 27px;
 
-    z-index: 10;
+    z-index: 1;
 }
 
 .a-btn {
@@ -39,4 +43,6 @@
     line-height: 33px;
 
     margin-bottom: 10px;
+
+    cursor: pointer;
 }
