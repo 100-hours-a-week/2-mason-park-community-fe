@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nickname &&
             validator.nickname(nickname)
         );
-        registerButton.style.backgroundColor = registerButton.disabled ? '#ACAOEB' : '#7F6AEE';
+        registerButton.style.backgroundColor = registerButton.disabled ? '#ACA0EB' : '#7F6AEE';
     }
 
     const updateData = (e, key) => {

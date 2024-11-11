@@ -1,3 +1,7 @@
+main {
+    padding-top: 20px;
+}
+
 .post-detail-container {
     display: flex;
     flex-direction: column;

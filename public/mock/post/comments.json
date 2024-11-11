@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "comment_id": 1,
+      "post_id": 1,
+      "content": "123456789012345678901234567890",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 2,
+      "post_id": 1,
+      "content": "내용내용",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 3,
+      "post_id": 1,
+      "content": "내용내용2",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 4,
+      "post_id": 1,
+      "content": "내용내용3",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 5,
+      "post_id": 1,
+      "content": "내용내용4",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 6,
+      "post_id": 1,
+      "content": "123456789012345678901234567890",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 7,
+      "post_id": 1,
+      "content": "123456789012345678901234567890",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    },
+    {
+      "comment_id": 8,
+      "post_id": 1,
+      "content": "123456789012345678901234567890",
+      "created_at": "2024-11-08 17:37:01",
+      "modified_at": "2024-11-08 17:37:01",
+      "writer": {
+        "user_id": 1,
+        "nickname": "닉네임",
+        "profile_image": "/image/default-user.svg"
+      }
+    }
+  ]
+}

@@ -4,122 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>글 상세</title>
+    <!-- CSS -->
     <link rel="stylesheet" href="/css/common/style.css">
     <link rel="stylesheet" href="/css/common/layout.css">
+    <link rel="stylesheet" href="/components/header/header.css">
     <link rel="stylesheet" href="/css/postDetail.css">
     <link rel="stylesheet" href="/css/comment.css">
+    <!-- JS -->
+    <script defer type="module" src="/js/postDetail.js"></script>
+    <script defer type="module" src="/js/comment.js"></script>
 </head>
 <body id="root">
     <main>
-        <div id="post-detail-modal" class="modal-container">
-            <div class="modal-box">
-                <p class="modal-title">게시글을 삭제하시겠습니까?</p>
-                <p class="modal-content">삭제한 내용은 복구할 수 없습니다.</p>
-                <div class="modal-btn-container">
-                    <div class="modal-confirm-btn">
-                        취소
-                    </div>
-                    <div class="modal-cancel-btn">
-                        확인
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="comment-detail-modal" class="modal-container">
-            <div class="modal-box">
-                <p class="modal-title">댓글을 삭제하시겠습니까?</p>
-                <p class="modal-content">삭제한 내용은 복구할 수 없습니다.</p>
-                <div class="modal-btn-container">
-                    <div class="modal-confirm-btn">
-                        취소
-                    </div>
-                    <div class="modal-cancel-btn">
-                        확인
-                    </div>
-                </div>
-            </div>
-        </div>
         <section class="container-column">
             <section class="post-header-box">
-                <h2 class="h2-title">제목 1</h2>
+                <h2 class="h2-title"></h2>
                 <div class="post-header">
                     <div class="profile-container">
                         <div class="profile-img-box">
-                            <img class="image-cover">
+                            <img id="post-writer-profile-img" class="image-cover">
                         </div>
-                        <span class="profile-nickname">더미 작성자1</span>
+                        <span class="profile-nickname"></span>
                     </div>
-                    <span class="span-time">
-                        2021-01-01 00:00:00
-                    </span>
-                    <div class="btn-container">
-                        <div class="c-btn">
-                            수정
-                        </div>
-                        <div class="c-btn">
-                            삭제
-                        </div>
-                    </div>
+                    <span id="post-created-at" class="span-time"></span>
                 </div>
             </section>
             <hr/>
             <section class="post-content-box">
                 <img class="post-image" alt="" src="/image/mock.jpeg">
                 <article class="post-content">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </article>
             </section>
             <section class="post-meta-box">
                 <div class="post-meta">
-                    <span class="span-bold-20">123</span>
+                    <span class="span-bold-20"></span>
                     <span class="span-bold-16">좋아요 수</span>
                 </div>
                 <div class="post-meta">
-                    <span class="span-bold-20">123</span>
+                    <span class="span-bold-20"></span>
                     <span class="span-bold-16">조회수</span>
                 </div>
                 <div class="post-meta">
-                    <span class="span-bold-20">123</span>
+                    <span class="span-bold-20"></span>
                     <span class="span-bold-16">댓글</span>
                 </div>
             </section>
         </section>
         <hr/>
 
-        <section class="container-column">
+        <section id="comment-container" class="container-column">
             <div class="comment-box">
                 <div class="input-box">
-                    <textarea class="input-textarea" placeholder="댓글을 남겨주세요"></textarea>
+                    <textarea id="comment" class="input-textarea" placeholder="댓글을 남겨주세요"></textarea>
                 </div>
-                <div class="b-btn">
+                <div id="comment-button" class="b-btn">
                     댓글 등록
                 </div>
             </div>
             <section class="comment-list-container">
-                <div class="comment-box">
-                    <div class="comment-header">
-                        <div class="profile-container">
-                            <div class="profile-img-box">
-                                <img class="image-cover">
-                            </div>
-                            <span class="profile-nickname">더미 작성자1</span>
-                        </div>
-                        <span class="span-time">
-                        2021-01-01 00:00:00
-                    </span>
-                        <div class="btn-container">
-                            <div class="c-btn">
-                                수정
-                            </div>
-                            <div class="c-btn">
-                                삭제
-                            </div>
-                        </div>
-                    </div>
-                    <article class="comment-content">
-                        댓글 내용 1
-                    </article>
-                </div>
             </section>
         </section>
     </main>

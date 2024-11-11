@@ -21,7 +21,10 @@ export const strings = {
     "MODIFY_USERS_INFO" : "회원정보수정",
     "MODIFY_USERS_PASSWORD" : "비밀번호수정",
     "LOGOUT" : "로그아웃",
-    "HEADER_TITLE" : "아무 말 대잔치"
+    "HEADER_TITLE" : "아무 말 대잔치",
+    "MODAL_POST_DELETE_TITLE" : "게시글을 삭제하시겠습니까?",
+    "MODAL_DELETE_CONTENT" : "삭제한 내용은 복구할 수 없습니다.",
+    "MODAL_COMMENT_DELETE_TITLE" : "댓글을 삭제하시겠습니까?",
 }
 
 export const status = {

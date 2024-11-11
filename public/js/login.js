@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const isValidPassword = validator.password(password);
 
         loginButton.disabled = !(email && isValidEmail && password && isValidPassword);
-        loginButton.style.backgroundColor = loginButton.disabled ? '#ACAOEB' : '#7F6AEE';
+        loginButton.style.backgroundColor = loginButton.disabled ? '#ACA0EB' : '#7F6AEE';
     }
 
     const inputEventHandler = (e, id) => {
