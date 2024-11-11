@@ -45,7 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
             password &&
             validator.password(password) &&
             nickname &&
-            validator.nickname(nickname)
+            validator.nickname(nickname) &&
+            (data['password'] === data['check-password'])
         );
         registerButton.style.backgroundColor = registerButton.disabled ? '#ACA0EB' : '#7F6AEE';
     }
