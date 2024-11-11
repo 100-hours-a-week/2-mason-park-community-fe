@@ -1,3 +1,7 @@
+main {
+    padding-top: 50px;
+}
+
 .post-write-box {
     display: flex;
     flex-direction: column;
@@ -12,7 +16,7 @@
     font-weight: 700;
 
     border: none;
-    border-radius: 0px;
+    border-radius: 0;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 
@@ -28,6 +32,10 @@
 
 .input-box {
     margin-top: 26px;
+}
+
+.input-textarea-box {
+    min-height: 340px;
 }
 
 .input-label {

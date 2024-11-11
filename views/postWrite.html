@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>글쓰기</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/components/header/header.css">
     <link rel="stylesheet" href="/css/common/style.css">
     <link rel="stylesheet" href="/css/common/layout.css">
     <link rel="stylesheet" href="/css/postWrite.css">
+    <!-- JS -->
+    <script defer type="module" src="/js/postWrite.js"></script>
 </head>
 <body id="root">
     <main>
@@ -17,20 +21,19 @@
             <div class="post-write-box">
                 <div class="input-box">
                     <lable for="title" class="input-label">제목*</lable>
-                    <input id="title" type="text" class="input-text" placeholder="제목을 입력해주세요.(최대 26글자)">
+                    <input id="title" type="text" class="input-text input" placeholder="제목을 입력해주세요.(최대 26글자)">
                 </div>
-                <div class="input-box">
+                <div class="input-box input-textarea-box">
                     <lable for="content" class="input-label">내용*</lable>
-                    <textarea id="content" class="input-textarea" placeholder="내용을 입력해주세요"></textarea>
-                    <span class="span-helper"></span>
+                    <textarea id="content" class="input-textarea input" placeholder="내용을 입력해주세요"></textarea>
+                    <span class="span-helper">* 제목, 내용을 모두 작성해주세요.</span>
                 </div>
                 <div class="input-box">
                     <label for="image" class="input-label">이미지</label>
-                    <input id="image" type="file" class="input-file">
-
+                    <input id="image" type="file" class="input-file input">
                 </div>
             </div>
-            <div class="a-btn">완료</div>
+            <div id="write" class="a-btn">완료</div>
         </section>
     </main>
 </body>
