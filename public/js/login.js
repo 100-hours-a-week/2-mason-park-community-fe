@@ -4,7 +4,7 @@ import Header from "../components/header/header.js";
 import {loginRequest} from "../api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    const data = {
+    const formData = {
         'email': '',
         'password': ''
     };
@@ -18,26 +18,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const login = async () => {
-        const response = await loginRequest(data);
+        try {
+            const response = await loginRequest(formData);
+            console.log(response);
+            if (!response.ok) {
+                if (response.status === status.UNAUTHORIZED) {
+                    console.error('Unauthorized : Login')
+                } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Login');
+                }
+                updateHelper(helper, strings.FAILED_LOGIN);
+                return;
+            }
 
-        if (response.status !== status.OK) {
-            updateHelper(helper, strings.FAILED_LOGIN);
-            return;
+            location.href = '/posts';
+        } catch (e) {
+            console.error(e);
         }
-
-        // TODO: 쿠키 설정
-        location.href = '/posts';
     }
 
     // Login Data 업데이트
     const updateData = (e, key) => {
-        data[key] = e.target.value;
+        formData[key] = e.target.value;
         validateData();
     }
 
     // Login Data 유효성 검사
     const validateData = () => {
-        const {email, password} = data;
+        const {email, password} = formData;
 
         const isValidEmail = validator.email(email);
         const isValidPassword = validator.password(password);
@@ -87,11 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const init = () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
-            false
+            false,
+            ''
         ), document.body);
         setEventListener();
         localStorage.clear();
-        document.cookie = '';
     }
 
     init();

@@ -1,10 +1,10 @@
 import {validator, status, strings} from "../utils/constants.js";
 import {insertBeforeElement} from "../utils/function.js";
 import Header from "../components/header/header.js";
-import {existEmail, existNickname, loginRequest} from "../api/auth.js";
+import {existEmail, existNickname, registerRequest} from "../api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    const data = {
+    const formData = {
         'email': '',
         'password': '',
         'check-password': '',
@@ -20,14 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const register = async () => {
-        // TODO : 회원가입 요청 및 응답에 대한 처리
-        const response = await loginRequest(data);
+        try {
+            // base64 인코딩
+            formData['password'] = window.btoa(formData['password']);
 
-        if (response.status !== status.OK) {
-            return;
+            const response = await registerRequest(formData);
+
+            if (!response.ok) {
+                if (response.status === status.BAD_REQUEST) {
+                    console.error('Bad Request : Register')
+                } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Register');
+                }
+                return;
+            }
+
+            location.href = 'login';
+        } catch (e) {
+            console.error(e);
         }
 
-        location.href = 'login';
     }
 
     // Register Data 유효성 검사
@@ -37,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
             password,
             checkPassword,
             nickname,
-        } = data;
+        } = formData;
 
         registerButton.disabled = !(
             email &&
@@ -46,13 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
             validator.password(password) &&
             nickname &&
             validator.nickname(nickname) &&
-            (data['password'] === data['check-password'])
+            (formData['password'] === formData['check-password'])
         );
         registerButton.style.backgroundColor = registerButton.disabled ? '#ACA0EB' : '#7F6AEE';
     }
 
     const updateData = (e, key) => {
-        data[key] = e.target.value;
+        formData[key] = e.target.value;
         validateData();
     }
 
@@ -84,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const helper = document.querySelector(`#${id}-helper`);
         const value = e.target.value;
 
+        // 이메일 유효성 검사
         if (id === 'email') {
             const isValid = validator.email(value);
             if (!value) {
@@ -92,15 +105,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateHelper(helper, strings.EMAIL_INVALID);
             } else {
                 const response = await existEmail(value);
+
                 if (response.status === status.CONFLICT) {
-                    updateHelper(helper, strings.EMAIL_INVALID);
+                    updateHelper(helper, strings.EMAIL_EXIST);
                 } else if (response.status === status.OK) {
                     updateHelper(helper, strings.BLANK);
                 }
             }
-        } else if (id === 'password') {
+        }
+        // 비밀번호 유효성 검사
+        else if (id === 'password') {
             const isValid = validator.password(value);
-            const isCheckValid = validator.checkPassword(value, data['check-password']);
+            const isCheckValid = validator.checkPassword(value, formData['check-password']);
             if (!value) {
                 updateHelper(helper, strings.PASSWORD_BLANK);
             } else if (!isValid) {
@@ -110,8 +126,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 updateHelper(helper, strings.BLANK);
             }
-        } else if (id === 'check-password') {
-            const isValid = validator.checkPassword( data['password'], value);
+        }
+        // 비밀번호 확인 유효성 검사
+        else if (id === 'check-password') {
+            const isValid = validator.checkPassword( formData['password'], value);
             const passwordHelper = document.querySelector(`#password-helper`);
             if (!value) {
                 updateHelper(helper, strings.CHECK_PASSWORD_BLANK);
@@ -122,7 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateHelper(helper, strings.BLANK);
             }
 
-        } else if (id === 'nickname') {
+        }
+        // 닉네임 유효성 검사
+        else if (id === 'nickname') {
             if (!value) {
                 updateHelper(helper, strings.NICKNAME_BLANK);
             } else if (value.includes(' ')) {
@@ -132,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 const response = await existNickname(value);
                 if (response.status === status.CONFLICT) {
-                    updateHelper(helper, strings.EMAIL_INVALID);
+                    updateHelper(helper, strings.NICKNAME_EXIST);
                 } else if (response.status === status.OK) {
                     updateHelper(helper, strings.BLANK);
                 }
@@ -142,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const setEventListener = () => {
+        // 폼 입력 이벤트리스너 
         const inputs = document.querySelectorAll(".input");
 
         inputs.forEach(input => {

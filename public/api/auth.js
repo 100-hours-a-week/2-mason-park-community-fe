@@ -1,23 +1,38 @@
+import {makeServerURL} from "../utils/function.js";
+
 export const loginRequest = async (data) => {
-    return await fetch('/mock/auth/login.json', {
-        method: 'GET',
+    return await fetch(`${makeServerURL('/auth/login')}`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify(data),
+        credentials: 'include'
+    });
+}
+
+export const logoutRequest = async () => {
+    return await fetch(`${makeServerURL('/auth/logout')}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include'
     });
 }
 
 export const registerRequest = async (data) => {
-    return await fetch('/mock/auth/register.json', {
-        method: 'GET',
+    return await fetch(`${makeServerURL('/auth/register')}`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify(data)
     })
 }
 
 export const existEmail = async (email) => {
-    return await fetch('/mock/auth/existEmail.json', {
+    return await fetch(`${makeServerURL('/auth/emails/exist', {'email': email})}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +41,7 @@ export const existEmail = async (email) => {
 }
 
 export const existNickname = async (nickname) => {
-    return await fetch('/mock/auth/existNickname.json', {
+    return await fetch(`${makeServerURL('/auth/nicknames/exist', {'nickname': nickname})}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

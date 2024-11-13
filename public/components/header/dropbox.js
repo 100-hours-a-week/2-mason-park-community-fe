@@ -1,4 +1,5 @@
-import {strings} from "../../utils/constants.js";
+import {status, strings} from "../../utils/constants.js";
+import {logoutRequest} from "../../api/auth.js";
 
 const DropBox = () => {
     let dropboxContainer = document.createElement("div");
@@ -24,15 +25,29 @@ const DropBox = () => {
     let linkLogout = document.createElement("div");
     linkLogout.classList.add("dropbox");
     linkLogout.textContent = strings.LOGOUT;
-    linkLogout.addEventListener("click", (e) => {
-        // TODO : 세션 쿠키 제거
-        window.location.href = '/login';
-    })
+    linkLogout.addEventListener("click", logout);
 
     dropboxContainer.appendChild(linkUserSetting);
     dropboxContainer.appendChild(linkPassword);
     dropboxContainer.appendChild(linkLogout);
     return dropboxContainer;
+}
+
+const logout = async () => {
+    try {
+        const response = await logoutRequest();
+
+        if (!response.ok) {
+            if (response.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Logout');
+            }
+        }
+
+        localStorage.clear();
+        location.href = '/login';
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 export default DropBox;

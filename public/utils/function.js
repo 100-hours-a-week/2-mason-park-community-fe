@@ -1,6 +1,20 @@
 import {status} from './constants.js';
 import Modal from "../components/modal/modal.js";
 
+export const makeServerURL = (path, params) => {
+    let url = `http://localhost:8080/api${path}`;
+
+    if (!params) return url;
+
+    url += '?';
+
+    for (const param in params) {
+        url += `${param}=${params[param]}`;
+    }
+
+    return url;
+}
+
 export const insertBeforeElement = (child, parent) => {
     parent.insertBefore(child, parent.firstChild);
 }
