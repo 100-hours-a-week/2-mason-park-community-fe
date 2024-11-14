@@ -2,6 +2,7 @@ import {strings, status, validator} from "../utils/constants.js";
 import { insertBeforeElement } from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {loginRequest} from "../api/auth.js";
+import {getMyProfile} from "../api/user.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const formData = {
@@ -19,17 +20,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const login = async () => {
         try {
-            const response = await loginRequest(formData);
-            console.log(response);
-            if (!response.ok) {
-                if (response.status === status.UNAUTHORIZED) {
+            const loginResponse = await loginRequest(formData);
+            if (!loginResponse.ok) {
+                if (loginResponse.status === status.UNAUTHORIZED) {
                     console.error('Unauthorized : Login')
-                } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                } else if (loginResponse.status === status.INTERNAL_SERVER_ERROR) {
                     console.error('Internal Server Error : Login');
                 }
                 updateHelper(helper, strings.FAILED_LOGIN);
                 return;
             }
+
+            const userResponse = await getMyProfile();
+            if (!userResponse.ok) {
+                if (userResponse.status === status.UNAUTHORIZED) {
+                    console.error('Unauthorized : getMyProfile');
+                } else if (userResponse.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : getMyProfile');
+                }
+            }
+
+            const user = await userResponse.json()
+            localStorage.setItem("user", user.data);
 
             location.href = '/posts';
         } catch (e) {

@@ -2,6 +2,7 @@ import {validator, status, strings} from "../utils/constants.js";
 import {insertBeforeElement} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {existEmail, existNickname, registerRequest} from "../api/auth.js";
+import {uploadProfileImage} from "../api/user.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const formData = {
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'password': '',
         'check-password': '',
         'nickname': '',
-        'profileImg': ''
+        'profile_image': ''
     };
 
     const registerButton = document.querySelector("#register");
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             // base64 인코딩
             formData['password'] = window.btoa(formData['password']);
+            formData['profile_image'] = localStorage.getItem("profile_image");
 
             const response = await registerRequest(formData);
 
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         validateData();
     }
 
-    const changeEventHandler = (e, id) => {
+    const changeEventHandler = async (e, id) => {
         const helper = document.querySelector(`#${id}-helper`);
 
         const file = e.target.files[0];
@@ -88,7 +90,22 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             fileReader.readAsDataURL(file);
 
-            // TODO: 이미지 등록 POST 요청
+            const image = new FormData();
+            image.append('profile_image', file);
+
+            const response = await uploadProfileImage(image);
+
+            if (!response.ok) {
+                if (response.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Upload Profile Image');
+                } else if (response.status === status.BAD_REQUEST) {
+                    console.error('Bad Request : Upload Profile Image');
+                }
+            }
+
+            const json = await response.json();
+            const data = json.data;
+            localStorage.setItem('profile_image', data['profile_image']);
         }
     }
 
