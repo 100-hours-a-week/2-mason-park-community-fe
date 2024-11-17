@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const login = async () => {
         try {
+            formData['password'] = window.btoa(formData['password']);
+
             const loginResponse = await loginRequest(formData);
             if (!loginResponse.ok) {
                 if (loginResponse.status === status.UNAUTHORIZED) {
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const user = await userResponse.json()
-            localStorage.setItem("user", user.data);
+            localStorage.setItem("user", JSON.stringify(user.data));
 
             location.href = '/posts';
         } catch (e) {
@@ -108,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
             false,
-            ''
+            null
         ), document.body);
         setEventListener();
         localStorage.clear();

@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 main {
     padding-top: 50px;
 }
@@ -17,6 +21,11 @@ main {
     height: 150px;
 
     align-self: center;
+}
+
+.image-cover {
+    width: 150px;
+    height: 150px;
 }
 
 .c-btn {

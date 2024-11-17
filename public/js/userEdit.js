@@ -1,21 +1,73 @@
-import {strings, validator} from "../utils/constants.js";
+import {status, strings, validator} from "../utils/constants.js";
 import {insertBeforeElement, openModal} from "../utils/function.js";
 import Header from "../components/header/header.js";
+import {updateMyProfile, uploadProfileImage, withdraw} from "../api/user.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    const data = {
+    const formData = {
         'nickname': '',
-        'profileImg': ''
+        'profile_image': ''
     }
 
     const modifyButton = document.querySelector("#modify");
     const withdrawButton = document.querySelector("#withdraw");
-    modifyButton.addEventListener("click", (e) => {
-        // TODO : 수정 API 호출
-    })
+
+    const updateUser = async () => {
+        try {
+            formData['profile_image'] = localStorage.getItem("profile_image");
+
+            const updateResponse = await updateMyProfile(formData);
+
+            if (!updateResponse.ok) {
+                if (updateResponse.status === status.BAD_REQUEST) {
+                    console.error('Bad Request : Update My Profile')
+                } else if (updateResponse.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Update My Profile');
+                }
+                return;
+            }
+
+            const updateResult = await updateResponse.json();
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            user['profile_image'] = formData['profile_image'] ? formData['profile_image'] : user['profile_image'];
+            user['nickname'] = formData['nickname'] ? formData['nickname'] : user['nickname'];
+            localStorage.setItem('user', JSON.stringify(user));
+
+            setMyProfile()
+
+            const toast = document.querySelector("#toast");
+
+            toast.classList.toggle('active');
+            setTimeout(() => {
+                toast.classList.toggle('active');
+            }, 2000);
+
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    modifyButton.addEventListener("click", updateUser);
 
     const deleteUser = async () => {
-        console.log("deleteUser");
+        try {
+            const deleteResponse = await withdraw();
+
+            if (!deleteResponse.ok) {
+                if (deleteResponse.status === status.NOT_FOUND) {
+                    console.error('Not Found : Withdraw')
+                } else if (deleteResponse.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Withdraw');
+                }
+                return;
+            }
+
+            localStorage.clear();
+            location.href = '/';
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     withdrawButton.addEventListener("click", (e) => {
@@ -37,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const {
             nickname,
             profileImg,
-        } = data;
+        } = formData;
 
         modifyButton.disabled = !(
             profileImg ||
@@ -48,11 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const updateData = (e, key)  => {
-        data[key] = e.target.value;
+        formData[key] = e.target.value;
         validateData();
     }
 
-    const changeEventHandler = (e, id) => {
+    const changeEventHandler = async (e, id) => {
         const file = e.target.files[0];
 
         if (!file) return;
@@ -68,8 +120,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         fileReader.readAsDataURL(file);
 
-        // TODO: 이미지 등록 POST 요청
+        const image = new FormData();
+        image.append('profile_image', file);
 
+        const response = await uploadProfileImage(image);
+
+        if (!response.ok) {
+            if (response.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Upload Profile Image');
+            } else if (response.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Upload Profile Image');
+            }
+        }
+
+        const json = await response.json();
+        const data = json.data;
+        localStorage.setItem('profile_image', data.profile_image);
     }
 
     const inputEventHandler = (e, id) => {
@@ -109,11 +175,29 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    const setMyProfile = () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        const headerProfileImg = document.querySelector(".profile-img");
+        headerProfileImg.src = user.profile_image;
+
+        const profileImg = document.querySelector(".image-cover");
+        profileImg.src = user.profile_image;
+
+        const email = document.querySelector("#email");
+        email.textContent = user.email;
+
+        const nickname = document.querySelector("#nickname");
+        nickname.placeholder = user.nickname;
+    }
+
     const init = () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
-            true
+            true,
+            JSON.parse(localStorage.getItem('user')).profile_image
         ), document.body);
+        setMyProfile();
         addEventListenerInput();
     };
     init();

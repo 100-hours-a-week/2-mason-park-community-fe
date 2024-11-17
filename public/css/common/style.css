@@ -252,3 +252,27 @@ a:link, a:visited {
     border-radius: 12px;
     cursor: pointer;
 }
+
+/* toast */
+#toast{
+    width: 102px;
+    height: 46px;
+
+    background-color: #ACA0EB;
+    color: white;
+    border-radius: 30px;
+
+    font-size: 18px;
+    line-height: 46px;
+    text-align: center;
+
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    transition: transform 0.1s ease;
+}
+
+#toast.active {
+    transform: translate(-50%, -50%);
+}

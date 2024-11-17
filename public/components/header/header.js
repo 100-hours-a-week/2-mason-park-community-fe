@@ -26,6 +26,7 @@ const Header = (title, backBtn = false, profile = images.DEFAULT_PROFILE_IMAGE) 
     let profileImg;
     if (profile) {
         profileImg = document.createElement("img");
+        profileImg.classList.add("profile-img");
         profileImg.src = profile;
 
         let dropbox = DropBox();
