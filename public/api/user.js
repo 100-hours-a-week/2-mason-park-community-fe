@@ -29,6 +29,17 @@ export const updateMyProfile = async (data) => {
     })
 }
 
+export const updatePassword = async (data) => {
+    return await fetch(`${makeServerURL('/users/me/password')}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include'
+    })
+}
+
 export const withdraw = async () => {
     return await fetch(`${makeServerURL('/users/withdraw')}`, {
         method: 'DELETE',

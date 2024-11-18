@@ -43,7 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const user = await userResponse.json()
-            localStorage.setItem("user", JSON.stringify(user.data));
+            localStorage.setItem("profile_image", user.data.profile_image);
+            localStorage.setItem("user_id", user.data.id);
 
             location.href = '/posts';
         } catch (e) {
@@ -109,8 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const init = () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
-            false,
-            null
+            false
         ), document.body);
         setEventListener();
         localStorage.clear();

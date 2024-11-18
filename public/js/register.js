@@ -203,8 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const init = () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
-            true,
-            null
+            true
         ), document.body);
         setEventListener();
     }

@@ -1,7 +1,8 @@
 import {strings} from "../utils/constants.js";
 import {insertBeforeElement} from "../utils/function.js";
 import Header from "../components/header/header.js";
-import {getPostRequest} from "../api/post.js";
+import {createPostRequest, getPostRequest, updatePostRequest} from "../api/post.js";
+import {status} from "../utils/constants.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     let postId;
@@ -9,19 +10,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = {
         'title': '',
         'content': '',
-        'image': ''
     }
+    const formData = new FormData();
+
     const helper = document.querySelector(".span-helper");
     const writeButton = document.querySelector('#write');
-    writeButton.addEventListener("click", (e) => {
 
-        if (!isUpdate) {
-            // TODO : 수정 API 요청
+    writeButton.addEventListener("click", async (e) => {
+
+        formData.append('data', new Blob([JSON.stringify(data)], {
+            // JSON 타입 지정
+            type: 'application/json',
+        }));
+
+        if (isUpdate) {
+            const updateResponse = await updatePostRequest(postId, formData);
+            if (!updateResponse.ok) {
+                if (updateResponse.status === status.BAD_REQUEST) {
+                    console.error('Bad Request : Update Post');
+                } else if (updateResponse.status === status.UNAUTHORIZED) {
+                    console.error('Unauthorized : Update Post');
+                } else if (updateResponse.status === status.FORBIDDEN) {
+                    console.error('Forbidden : Update Post');
+                } else if (updateResponse.status === status.NOT_FOUND) {
+                    console.error('Not Found : Update Post');
+                } else if (updateResponse.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Update Post');
+                }
+                return;
+            }
+
+            const updateResult = await updateResponse.json();
+            location.href = `/posts/${updateResult.data.post_id}`;
+
         } else {
-            // TODO : 등록 API 요청
-        }
+            const createResponse = await createPostRequest(formData);
+            if (!createResponse.ok) {
+                if (createResponse.status === status.BAD_REQUEST) {
+                    console.error('Bad Request : Create Post');
+                } else if (createResponse.status === status.UNAUTHORIZED) {
+                    console.error('Unauthorized : Create Post');
+                } else if (createResponse.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Create Post');
+                }
+                return;
+            }
 
-        location.href = `/posts/${postId}`;
+            const createResult = await createResponse.json();
+            location.href = `/posts/${createResult.data.post_id}`;
+        }
     })
 
     const updateHelper = (helperElement, message = '') => {
@@ -58,8 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!file) {
             return;
         }
-
-        // TODO: 이미지 등록 POST 요청
+        formData.append('post_image', file);
     }
 
     const addEventListenerInput = () => {
@@ -68,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         inputs.forEach(input => {
             const id = input.id;
 
-            if (id === 'img') {
+            if (id === 'image') {
                 input.addEventListener('change', (e) => {
                     changeEventHandler(e, id);
                 })
@@ -83,11 +119,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const checkUpdate = async () => {
         const pathname = window.location.pathname;
 
-        if (pathname.includes(strings.MODIFY_URL)) {
-            isUpdate = true;
-            const title = document.querySelector('.h2-title');
-            title.textContent = strings.MODIFY_TITLE;
+        if (!pathname.includes(strings.MODIFY_URL)) {
+            return;
         }
+
+        isUpdate = true;
+        const title = document.querySelector('.h2-title');
+        title.textContent = strings.MODIFY_TITLE;
 
         postId = Number(pathname.split('/')[2]);
         const response = await getPostRequest(postId);
@@ -102,16 +140,14 @@ document.addEventListener("DOMContentLoaded", () => {
         contentInput.value = post.data.content;
         data['content'] = post.data.title;
 
-        const imageInput = document.querySelector('#image');
-        // TODO : 등록한 이미지 있을 경우 처리
-
         validateData();
     }
 
     const init = async () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
-            true
+            true,
+            localStorage.getItem('profile_image')
         ), document.body)
 
         addEventListenerInput();

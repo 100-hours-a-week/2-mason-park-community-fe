@@ -1,7 +1,7 @@
 import { images } from "../../utils/constants.js";
 import DropBox from "./dropbox.js";
 
-const Header = (title, backBtn = false, profile = images.DEFAULT_PROFILE_IMAGE) => {
+const Header = (title, backBtn = false, profile) => {
     let header = document.createElement("header");
     let headerContainer = document.createElement("div");
     headerContainer.classList.add("header-container");
@@ -24,10 +24,10 @@ const Header = (title, backBtn = false, profile = images.DEFAULT_PROFILE_IMAGE) 
     let profileDiv = document.createElement("div");
     profileDiv.classList.add("user-profile-img");
     let profileImg;
-    if (profile) {
+    if (profile !== undefined) {
         profileImg = document.createElement("img");
         profileImg.classList.add("profile-img");
-        profileImg.src = profile;
+        profileImg.src = profile === null ? images.DEFAULT_PROFILE_IMAGE : profile;
 
         let dropbox = DropBox();
         dropbox.classList.add("none");

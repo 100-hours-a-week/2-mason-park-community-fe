@@ -47,7 +47,7 @@ const PostItem = (data) => {
     postBoxWrap = document.createElement("div");
     postBoxWrap.classList.add("post-box-wrap");
 
-    const writer = data.writer;
+    const writer = data.user;
 
     const profileContainer = document.createElement("div");
     profileContainer.classList.add("profile-container");

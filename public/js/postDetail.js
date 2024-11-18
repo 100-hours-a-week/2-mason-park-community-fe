@@ -1,19 +1,26 @@
-import {blockScroll, convertToKUnit, insertBeforeElement, openModal} from "../utils/function.js";
+import {convertToKUnit, insertBeforeElement, openModal} from "../utils/function.js";
 import Header from "../components/header/header.js";
-import Modal from "../components/modal/modal.js"
-import {strings} from "../utils/constants.js";
+import {status, strings} from "../utils/constants.js";
 import {deletePostRequest, getPostRequest} from "../api/post.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const getPost = async (postId) => {
-        const response = await getPostRequest();
+        const getResponse = await getPostRequest(postId);
 
-        if (!response.ok) {
-            throw new Error('failed to get post');
+        if (!getResponse.ok) {
+            if (getResponse.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Get Post');
+            } else if (getResponse.status === status.UNAUTHORIZED) {
+                console.error('Unauthorized : Get Post')
+            } else if (getResponse.status === status.NOT_FOUND) {
+                console.error('Not Found : Get Post')
+            } else if (getResponse.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Get Post');
+            }
         }
 
-        return await response.json();
+        return await getResponse.json();
     }
 
     const deletePost = async (postId) => {
@@ -29,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const postTitle = document.querySelector('.h2-title');
         postTitle.textContent = post.title;
 
-        const writer = post.writer;
+        const writer = post.user;
 
         const profileImg = document.querySelector('#post-writer-profile-img');
         profileImg.src = writer.profile_image;
@@ -70,8 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
             postHeader.appendChild(buttonContainer);
         }
 
-        const postImg = document.querySelector('.post-image');
-        postImg.src = post.post_image;
+        if (post.post_image) {
+            const postImg = document.querySelector('.post-image');
+            postImg.classList.remove('none');
+            postImg.src = post.post_image;
+        }
 
         const postContent = document.querySelector('.post-content');
         postContent.textContent = post.content;
@@ -91,11 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const init = async () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
-            true
+            true,
+            localStorage.getItem('profile_image')
         ), document.body);
-
-        const post = await getPost();
-        await setPost(post.data, true);
+        const pathname = window.location.pathname;
+        const post = await getPost(Number(pathname.split('/')[2]));
+        await setPost(post.data, localStorage.getItem('user_id') === post.data.user.user_id);
     }
 
     init();

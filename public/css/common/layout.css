@@ -101,3 +101,7 @@ main {
     overflow: hidden;
     padding-right: var(--scrollbar-width);
 }
+
+.none {
+    display: none;
+}

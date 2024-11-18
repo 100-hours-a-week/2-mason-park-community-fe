@@ -9,7 +9,7 @@ export const makeServerURL = (path, params) => {
     url += '?';
 
     for (const param in params) {
-        url += `${param}=${params[param]}`;
+        url += `${param}=${params[param]}&`;
     }
 
     return url;

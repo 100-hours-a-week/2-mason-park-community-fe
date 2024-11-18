@@ -276,3 +276,7 @@ a:link, a:visited {
 #toast.active {
     transform: translate(-50%, -50%);
 }
+
+.blank-title {
+    padding: 50px 0;
+}

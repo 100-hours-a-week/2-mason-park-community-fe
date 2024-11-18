@@ -1,4 +1,4 @@
-import {status, strings, validator} from "../utils/constants.js";
+import {images, status, strings, validator} from "../utils/constants.js";
 import {insertBeforeElement, openModal} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {updateMyProfile, uploadProfileImage, withdraw} from "../api/user.js";
@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!deleteResponse.ok) {
                 if (deleteResponse.status === status.NOT_FOUND) {
                     console.error('Not Found : Withdraw')
+                } else if (deleteResponse.status === status.UNAUTHORIZED) {
+                    console.error('Unauthorized : Withdraw')
                 } else if (deleteResponse.status === status.INTERNAL_SERVER_ERROR) {
                     console.error('Internal Server Error : Withdraw');
                 }
@@ -179,10 +181,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = JSON.parse(localStorage.getItem('user'));
 
         const headerProfileImg = document.querySelector(".profile-img");
-        headerProfileImg.src = user.profile_image;
+        headerProfileImg.src = user.profile_image ? user.profile_image : images.DEFAULT_PROFILE_IMAGE;
 
         const profileImg = document.querySelector(".image-cover");
-        profileImg.src = user.profile_image;
+        profileImg.src = user.profile_image ? user.profile_image : images.DEFAULT_PROFILE_IMAGE;
 
         const email = document.querySelector("#email");
         email.textContent = user.email;
@@ -195,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
             true,
-            JSON.parse(localStorage.getItem('user')).profile_image
+            localStorage.getItem('profile_image')
         ), document.body);
         setMyProfile();
         addEventListenerInput();
