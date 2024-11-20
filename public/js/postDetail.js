@@ -18,18 +18,30 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (getResponse.status === status.INTERNAL_SERVER_ERROR) {
                 console.error('Internal Server Error : Get Post');
             }
+
+            return;
         }
 
         return await getResponse.json();
     }
 
     const deletePost = async (postId) => {
-        const response = await deletePostRequest();
+        const deleteResponse = await deletePostRequest(postId);
 
-        if (!response.ok) {
-            throw new Error('failed to delete post');
+        if (!deleteResponse.ok) {
+            if (deleteResponse.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Delete Post');
+            } else if (deleteResponse.status === status.UNAUTHORIZED) {
+                console.error('Unauthorized : Delete Post');
+            } else if (deleteResponse.status === status.NOT_FOUND) {
+                console.error('Not Found : Delete Post');
+            } else if (deleteResponse.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Delete Post');
+            }
+            return;
         }
-        return await response.json();
+
+        location.href = '/posts';
     }
 
     const setPost = async (post, isAuth) => {
@@ -106,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ), document.body);
         const pathname = window.location.pathname;
         const post = await getPost(Number(pathname.split('/')[2]));
-        await setPost(post.data, localStorage.getItem('user_id') === post.data.user.user_id);
+        await setPost(post.data, localStorage.getItem('user_id') === String(post.data.user_id));
     }
 
     init();

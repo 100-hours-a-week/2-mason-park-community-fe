@@ -1,11 +1,12 @@
-import {deleteCommentRequest, getCommentsRequest, postCommentRequest, updateCommentRequest} from "../api/comment.js";
+import {deleteCommentRequest, getCommentsRequest, createCommentRequest, updateCommentRequest} from "../api/comment.js";
 import {appendChildElement, focusOnElement, openModal} from "../utils/function.js";
 import CommentItem from "../components/post/commentItem.js";
-import {strings} from "../utils/constants.js";
+import {status, strings} from "../utils/constants.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     let isUpdate = false;
     let commentId;
+    let postId;
 
     const data = {
         'content': ''
@@ -14,21 +15,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentInput = document.querySelector('#comment');
     const commentButton = document.querySelector('#comment-button');
 
-    const postComment = async () => {
-        const response = await postCommentRequest();
+    const createComment = async () => {
+        const response = await createCommentRequest(postId, data);
 
         if (!response.ok) {
-            throw new Error('failed to update comment');
+            if (response.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Create Comment');
+            } else if (response.status === status.UNAUTHORIZED) {
+                console.error('Unauthorized : Create Comment');
+            } else if (response.status === status.NOT_FOUND) {
+                console.error('Not Found : Create Comment');
+            } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Create Comment');
+            }
+            return;
         }
 
         return await response.json();
     }
 
-    const updateComment = async (commentId) => {
-        const response = await updateCommentRequest();
+    const updateComment = async () => {
+        const response = await updateCommentRequest(postId,commentId, data);
 
         if (!response.ok) {
-            throw new Error('failed to update comment');
+            if (response.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Update Comment');
+            } else if (response.status === status.UNAUTHORIZED) {
+                console.error('Unauthorized : Update Comment');
+            } else if (response.status === status.FORBIDDEN) {
+                console.error('Forbidden : Update Comment');
+            } else if (response.status === status.NOT_FOUND) {
+                console.error('Not Found : Update Comment');
+            } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Update Comment');
+            }
+            return;
         }
 
         return await response.json();
@@ -36,11 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const submitCommentData = async () => {
         if (isUpdate) {
-            await updateComment(commentId);
+            const updateResult = await updateComment();
         } else {
-            await postComment();
+            const createResult = await createComment();
         }
+        commentInput.value = '';
+        const comments = await getComments();
+        await setComments(comments.data);
         isUpdate = false;
+        commentButton.textContent = '댓글 등록';
     }
 
     const inputEventHandler = (e) => {
@@ -49,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const observer = (value) => {
-        console.log(!value);
         commentButton.disabled = !value;
         commentButton.style.backgroundColor = commentButton.disabled ? '#ACA0EB' : '#7F6AEE';
     }
@@ -60,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const getComments = async () => {
-        const response = await getCommentsRequest();
+        const response = await getCommentsRequest(postId);
 
         if (!response.ok) {
             throw new Error('failed to get comments');
@@ -96,12 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const setComments = async (comments) => {
-        const container = document.querySelector('#comment-container');
+        const container = document.querySelector('.comment-list-container');
+        container.innerHTML = '';
 
         comments.forEach((comment) => {
             appendChildElement(CommentItem(
                 comment,
-                true,
+                localStorage.getItem('user_id') === String(comment.user_id),
                 {
                     delete: openModal.bind(
                         null,
@@ -121,8 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    const checkPost = () => {
+        const pathname = window.location.pathname;
+        postId = Number(pathname.split('/')[2]);
+    }
+
     const init = async () => {
         setEventListener();
+        checkPost();
         const comments = await getComments();
         await setComments(comments.data);
     }

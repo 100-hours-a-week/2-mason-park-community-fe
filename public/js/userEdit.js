@@ -1,7 +1,7 @@
 import {images, status, strings, validator} from "../utils/constants.js";
 import {insertBeforeElement, openModal} from "../utils/function.js";
 import Header from "../components/header/header.js";
-import {updateMyProfile, uploadProfileImage, withdraw} from "../api/user.js";
+import {getMyProfile, updateMyProfile, uploadProfileImage, withdraw} from "../api/user.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const formData = {
@@ -29,10 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const updateResult = await updateResponse.json();
 
-            const user = JSON.parse(localStorage.getItem('user'));
-            user['profile_image'] = formData['profile_image'] ? formData['profile_image'] : user['profile_image'];
-            user['nickname'] = formData['nickname'] ? formData['nickname'] : user['nickname'];
-            localStorage.setItem('user', JSON.stringify(user));
+            const getResponse = await getMyProfile();
+            if (!getResponse.ok) {
+                if (getResponse.status === status.UNAUTHORIZED) {
+                    console.error('Unauthorized : Get My Profile');
+                } else if (getResponse.status === status.NOT_FOUND) {
+                    console.error('Not Found : Get My Profile')
+                } else if (getResponse.status === status.INTERNAL_SERVER_ERROR) {
+                    console.error('Internal Server Error : Get My Profile');
+                }
+                return;
+            }
+
+            const getResult = await getResponse.json();
+            localStorage.setItem('profile_image', getResult.data.profile_image);
+            localStorage.setItem('nickname', getResult.data.nickname);
 
             setMyProfile()
 
@@ -178,19 +189,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const setMyProfile = () => {
-        const user = JSON.parse(localStorage.getItem('user'));
-
+        const profile_image = localStorage.getItem('profile_image');
         const headerProfileImg = document.querySelector(".profile-img");
-        headerProfileImg.src = user.profile_image ? user.profile_image : images.DEFAULT_PROFILE_IMAGE;
+        headerProfileImg.src = profile_image ? profile_image : images.DEFAULT_PROFILE_IMAGE;
 
         const profileImg = document.querySelector(".image-cover");
-        profileImg.src = user.profile_image ? user.profile_image : images.DEFAULT_PROFILE_IMAGE;
+        profileImg.src = profile_image ? profile_image : images.DEFAULT_PROFILE_IMAGE;
 
         const email = document.querySelector("#email");
-        email.textContent = user.email;
+        email.textContent = localStorage.getItem('email');
 
         const nickname = document.querySelector("#nickname");
-        nickname.placeholder = user.nickname;
+        nickname.placeholder = localStorage.getItem('nickname');
     }
 
     const init = () => {

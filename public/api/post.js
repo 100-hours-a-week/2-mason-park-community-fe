@@ -37,11 +37,12 @@ export const updatePostRequest = async (postId, data) => {
 }
 
 export const deletePostRequest = async (postId) => {
-    return await fetch('/mock/post/deletePost.json', {
-        method: 'GET',
+    return await fetch(`${makeServerURL(`/posts/${postId}`)}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include'
     })
 }
 

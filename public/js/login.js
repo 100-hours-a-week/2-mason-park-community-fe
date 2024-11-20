@@ -43,8 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const user = await userResponse.json()
+
             localStorage.setItem("profile_image", user.data.profile_image);
-            localStorage.setItem("user_id", user.data.id);
+            localStorage.setItem("user_id", user.data.user_id);
+            localStorage.setItem("email", user.data.email);
+            localStorage.setItem("nickname", user.data.nickname);
+            localStorage.setItem("is_authenticated", user.data.is_authenticated);
 
             location.href = '/posts';
         } catch (e) {

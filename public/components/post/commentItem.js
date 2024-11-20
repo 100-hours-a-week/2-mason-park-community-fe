@@ -5,7 +5,7 @@ const CommentItem = (data, isAuth, handler) => {
     const commentHeader = document.createElement('div');
     commentHeader.classList.add('comment-header');
 
-    const writer = data.writer;
+    const writer = data.user;
 
     const profileContainer = document.createElement("div");
     profileContainer.classList.add("profile-container");
