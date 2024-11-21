@@ -33,10 +33,11 @@ export const updateCommentRequest = async (postId, commentId, data) => {
 }
 
 export const deleteCommentRequest = async (postId, commentId) => {
-    return await fetch('/mock/post/deleteComment.json', {
-        mehtod: 'GET',
+    return await fetch(`${makeServerURL(`/posts/${postId}/comments/${commentId}`)}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include'
     })
 }

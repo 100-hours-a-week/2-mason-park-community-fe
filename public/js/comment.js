@@ -87,7 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await getCommentsRequest(postId);
 
         if (!response.ok) {
-            throw new Error('failed to get comments');
+            if (response.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Get Comment');
+            } else if (response.status === status.UNAUTHORIZED) {
+                console.error('Unauthorized : Get Comment');
+            } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Get Comment');
+            }
+            return;
         }
 
         return await response.json();
@@ -110,13 +117,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const deleteComment = async (commentId) => {
-        const response = await deleteCommentRequest();
+        const response = await deleteCommentRequest(postId, commentId);
 
         if (!response.ok) {
-            throw new Error('failed to delete comment');
+            if (response.status === status.BAD_REQUEST) {
+                console.error('Bad Request : Delete Comment');
+            } else if (response.status === status.UNAUTHORIZED) {
+                console.error('Unauthorized : Delete Comment');
+            } else if (response.status === status.FORBIDDEN) {
+                console.error('Forbidden : Delete Comment');
+            } else if (response.status === status.NOT_FOUND) {
+                console.error('Not Found : Delete Comment');
+            } else if (response.status === status.INTERNAL_SERVER_ERROR) {
+                console.error('Internal Server Error : Delete Comment');
+            }
+            return;
         }
 
-        return await response.json();
+        const comments = await getComments();
+        await setComments(comments.data);
     }
 
     const setComments = async (comments) => {
