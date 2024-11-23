@@ -1,9 +1,7 @@
-  import {strings, status, validator} from "../utils/constants.js";
+import {strings, status, validator} from "../utils/constants.js";
 import { insertBeforeElement } from "../utils/function.js";
 import Header from "../components/header/header.js";
-import {loginRequest} from "../api/auth.js";
-  import {updatePassword} from "../api/user.js";
-  import {locals} from "express/lib/application.js";
+import {updatePassword} from "../api/user.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const formData = {
