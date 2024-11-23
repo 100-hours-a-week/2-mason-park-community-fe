@@ -2,16 +2,15 @@ import { images } from "../../utils/constants.js";
 import DropBox from "./dropbox.js";
 
 const Header = (title, backBtn = false, profile) => {
-    let header = document.createElement("header");
-    let headerContainer = document.createElement("div");
+    const header = document.createElement("header");
+    const headerContainer = document.createElement("div");
     headerContainer.classList.add("header-container");
 
-    let backDiv = document.createElement("div");
+    const backDiv = document.createElement("div");
     backDiv.classList.add("header-back");
-    let backImg;
     // 뒤로가기 버튼 추가
     if (backBtn) {
-        backImg = document.createElement("img");
+        const backImg = document.createElement("img");
         backImg.src = images.BACK_BUTTON_IMAGE;
 
         // 뒤로가기 이벤트 추가
@@ -24,12 +23,13 @@ const Header = (title, backBtn = false, profile) => {
     let profileDiv = document.createElement("div");
     profileDiv.classList.add("user-profile-img");
     let profileImg;
+    // 프로필 이미지가 필요한 경우
     if (profile !== undefined) {
         profileImg = document.createElement("img");
         profileImg.classList.add("profile-img");
         profileImg.src = profile === null ? images.DEFAULT_PROFILE_IMAGE : profile;
 
-        let dropbox = DropBox();
+        let dropbox = DropBox(localStorage.getItem('is_authenticated'));
         dropbox.classList.add("none");
 
         profileDiv.appendChild(profileImg);

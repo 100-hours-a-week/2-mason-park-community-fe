@@ -58,7 +58,7 @@ header {
     position: absolute;
 
     width: 115px;
-    height: 105px;
+    min-height: 35px;
 
     display: flex;
     flex-direction: column;
