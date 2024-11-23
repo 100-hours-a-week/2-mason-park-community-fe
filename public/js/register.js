@@ -1,10 +1,11 @@
 import {validator, status, strings} from "../utils/constants.js";
-import {insertBeforeElement} from "../utils/function.js";
+import {insertBeforeElement, updateHelper} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {existEmail, existNickname, registerRequest} from "../api/auth.js";
 import {uploadProfileImage} from "../api/user.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    let isDisabled = true;
     const formData = {
         'email': '',
         'password': '',
@@ -15,25 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const registerButton = document.querySelector("#register");
 
-    // Helper Text 업데이트
-    const updateHelper = (helperElement, message = '') => {
-        helperElement.textContent = message;
-    }
-
     const register = async () => {
         try {
+            if(isDisabled)  {
+                const toast = document.querySelector("#toast");
+
+                toast.classList.toggle('active');
+                setTimeout(() => {
+                    toast.classList.toggle('active');
+                }, 2000);
+                return;
+            }
+
             // base64 인코딩
             formData['password'] = window.btoa(formData['password']);
-            formData['profile_image'] = localStorage.getItem("profile_image");
 
             const response = await registerRequest(formData);
+            const result = await response.json();
 
             if (!response.ok) {
-                if (response.status === status.BAD_REQUEST) {
-                    console.error('Bad Request : Register')
-                } else if (response.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Register');
-                }
+                console.error(`${result.error} : ${result.message}`);
                 return;
             }
 
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nickname,
         } = formData;
 
-        registerButton.disabled = !(
+        isDisabled = !(
             email &&
             validator.email(email) &&
             password &&
@@ -62,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             validator.nickname(nickname) &&
             (formData['password'] === formData['check-password'])
         );
-        registerButton.style.backgroundColor = registerButton.disabled ? '#ACA0EB' : '#7F6AEE';
+        registerButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
     }
 
     const updateData = (e, key) => {
@@ -94,18 +96,15 @@ document.addEventListener("DOMContentLoaded", () => {
             image.append('profile_image', file);
 
             const response = await uploadProfileImage(image);
+            const result = await response.json();
 
             if (!response.ok) {
-                if (response.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Upload Profile Image');
-                } else if (response.status === status.BAD_REQUEST) {
-                    console.error('Bad Request : Upload Profile Image');
-                }
+                console.error(`${result.error} : ${result.message}`);
+                return;
             }
 
-            const json = await response.json();
-            const data = json.data;
-            localStorage.setItem('profile_image', data['profile_image']);
+            const data = result.data;
+            formData['profile_image'] = data.profile_image;
         }
     }
 
@@ -197,10 +196,16 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         registerButton.addEventListener("click", register);
+        document.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
+               await register();
+            }
+        })
     }
 
 
     const init = () => {
+        // 헤더 추가
         insertBeforeElement(Header(
             strings.HEADER_TITLE,
             true
