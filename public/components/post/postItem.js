@@ -21,14 +21,14 @@ const PostItem = (data) => {
     postMetaContainer.classList.add("post-meta-container");
 
     let postMetaItem;
-    ['thumbs', 'views', 'comments', 'created_at'].forEach(item => {
+    ['thumb_count', 'view_count', 'comment_count', 'created_at'].forEach(item => {
         postMetaItem = document.createElement("span");
         postMetaItem.classList.add("post-meta-item");
-        if (item === 'thumbs') {
+        if (item === 'thumb_count') {
             postMetaItem.textContent = `좋아요 ${convertToKUnit(data[item])}`
-        } else if (item === 'views') {
+        } else if (item === 'view_count') {
             postMetaItem.textContent = `조회수 ${convertToKUnit(data[item])}`
-        } else if (item === 'comments') {
+        } else if (item === 'comment_count') {
             postMetaItem.textContent = `댓글 ${convertToKUnit(data[item])}`
         } else if (item === 'created_at') {
             postMetaItem.classList.add('span-time');

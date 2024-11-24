@@ -1,50 +1,37 @@
-import {convertToKUnit, insertBeforeElement, openModal} from "../utils/function.js";
+import {closeModal, convertToKUnit, insertBeforeElement, openModal} from "../utils/function.js";
 import Header from "../components/header/header.js";
-import {status, strings} from "../utils/constants.js";
+import {strings} from "../utils/constants.js";
 import {deletePostRequest, getPostRequest} from "../api/post.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    let postId;
+    const getPost = async () => {
+        const response = await getPostRequest(postId);
+        const result = await response.json();
 
-    const getPost = async (postId) => {
-        const getResponse = await getPostRequest(postId);
-
-        if (!getResponse.ok) {
-            if (getResponse.status === status.BAD_REQUEST) {
-                console.error('Bad Request : Get Post');
-            } else if (getResponse.status === status.UNAUTHORIZED) {
-                console.error('Unauthorized : Get Post')
-            } else if (getResponse.status === status.NOT_FOUND) {
-                console.error('Not Found : Get Post')
-            } else if (getResponse.status === status.INTERNAL_SERVER_ERROR) {
-                console.error('Internal Server Error : Get Post');
-            }
-
+        if (!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
             return;
         }
 
-        return await getResponse.json();
+        return result.data;
     }
 
     const deletePost = async (postId) => {
-        const deleteResponse = await deletePostRequest(postId);
+        const response = await deletePostRequest(postId);
 
-        if (!deleteResponse.ok) {
-            if (deleteResponse.status === status.BAD_REQUEST) {
-                console.error('Bad Request : Delete Post');
-            } else if (deleteResponse.status === status.UNAUTHORIZED) {
-                console.error('Unauthorized : Delete Post');
-            } else if (deleteResponse.status === status.NOT_FOUND) {
-                console.error('Not Found : Delete Post');
-            } else if (deleteResponse.status === status.INTERNAL_SERVER_ERROR) {
-                console.error('Internal Server Error : Delete Post');
-            }
+        if (!response.ok) {
+            const result = await response.json();
+            console.error(`${result.error} : ${result.message}`);
             return;
         }
 
-        location.href = '/posts';
+        closeModal();
+        window.location.href = '/posts';
     }
 
     const setPost = async (post, isAuth) => {
+        console.log(post);
         const postTitle = document.querySelector('.h2-title');
         postTitle.textContent = post.title;
 
@@ -74,10 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     openModal(
                         strings.MODAL_POST_DELETE_TITLE,
                         strings.MODAL_DELETE_CONTENT,
-                        deletePost.bind(
-                            null,
-                            post.post_id
-                        ),
+                        () => { deletePost(post.post_id) }
                     )
                 }
             });
@@ -101,11 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll(".post-meta").forEach(item => {
             const key = item.lastElementChild.textContent;
             if (key === '좋아요 수') {
-                item.firstElementChild.textContent = convertToKUnit(post.thumbs);
+                item.firstElementChild.textContent = convertToKUnit(post.thumb_count);
             } else if (key === '조회수') {
-                item.firstElementChild.textContent = convertToKUnit(post.views);
+                item.firstElementChild.textContent = convertToKUnit(post.view_count);
             } else if (key === '댓글') {
-                item.firstElementChild.textContent = convertToKUnit(post.comments);
+                item.firstElementChild.textContent = convertToKUnit(post.comment_count);
             }
         })
     }
@@ -116,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
             true,
             localStorage.getItem('profile_image')
         ), document.body);
-        const pathname = window.location.pathname;
-        const post = await getPost(Number(pathname.split('/')[2]));
-        await setPost(post.data, localStorage.getItem('user_id') === String(post.data.user_id));
+        postId = Number(window.location.pathname.split('/')[2]);
+        const post = await getPost();
+        await setPost(post, localStorage.getItem('user_id') === String(post.user_id));
     }
 
     init();

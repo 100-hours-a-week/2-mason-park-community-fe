@@ -45,6 +45,9 @@ const Header = (title, backBtn = false, profile) => {
     let headerTitle = document.createElement("div");
     headerTitle.classList.add("header-title");
     headerTitle.textContent = title;
+    headerTitle.addEventListener("click", (e) => {
+        window.location.href = '/posts'
+    })
 
     headerContainer.appendChild(backDiv);
     headerContainer.appendChild(headerTitle);

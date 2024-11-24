@@ -27,13 +27,13 @@ const Modal = (title, content, handler) => {
     confirmButton.textContent = "확인";
 
     [confirmButton, cancelButton].forEach(button => {
-      button.addEventListener('click', (e) => {
-          if (button.textContent === '확인') {
-              handler();
-          }
-
-          closeModal();
-      });
+        button.addEventListener('click', async (e) => {
+            if (button.textContent === '확인') {
+                await handler();
+            } else {
+                closeModal();
+            }
+        });
     })
 
     buttonContainer.appendChild(cancelButton);
