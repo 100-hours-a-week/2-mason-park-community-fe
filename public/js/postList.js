@@ -39,16 +39,29 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'posts/write';
         })
 
-        let offset = 0;
-        let limit = 5;
-
+        let offset = 5,
+            limit = 5,
+            isEnd = false,
+            isProcessing = false;
         const infinityScrollEventHandler =  async (e) => {
 
             // 페이지의 맨 아래로 스크롤 했을 때
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                offset += limit;
-                const posts = await getPosts(offset, limit);
-                await setPosts(posts);
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isEnd && !isProcessing) {
+                isProcessing = true;
+                try {
+                    const posts = await getPosts(offset, limit);
+                    if (!posts || posts.length === 0) {
+                        isEnd = true;
+                    } else {
+                        offset += limit;
+                        await setPosts(posts);
+                    }
+                } catch (e) {
+                    console.error(e);
+                    isEnd = true;
+                } finally {
+                    isProcessing = false;
+                }
             }
         }
 

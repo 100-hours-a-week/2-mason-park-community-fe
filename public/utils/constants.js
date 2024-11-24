@@ -21,6 +21,7 @@ export const strings = {
     "MODIFY_USERS_INFO" : "회원정보수정",
     "MODIFY_USERS_PASSWORD" : "비밀번호수정",
     "LOGOUT" : "로그아웃",
+    "LOGIN" : "로그인",
     "HEADER_TITLE" : "아무 말 대잔치",
     "MODAL_POST_DELETE_TITLE" : "게시글을 삭제하시겠습니까?",
     "MODAL_DELETE_CONTENT" : "삭제한 내용은 복구할 수 없습니다.",
@@ -60,6 +61,12 @@ export const validator = {
     },
     nickname(value) {
         return /^[가-힣a-zA-Z0-9]{2,10}$/.test(value);
+    },
+    postTitle(value) {
+        return 0 < value.length && value.length <= 26;
+    },
+    postContent(value) {
+        return 0 < value.length && value.length <= 1500;
     }
 }
 
@@ -67,5 +74,7 @@ export const limit = {
     "NICKNAME_MIN_LEN": 1,
     "NICKNAME_MAX_LEN": 10,
     "TITLE_MIN_LEN": 1,
-    "TITLE_MAX_LEN": 26
+    "TITLE_MAX_LEN": 26,
+    "CONTENT_MIN_LEN": 1,
+    "CONTENT_MAX_LEN": 1500
 }

@@ -17,15 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const writeButton = document.querySelector('#write');
 
     const submitPost = async () => {
-        formData.append('data', new Blob([JSON.stringify(data)], {
-            // JSON 타입 지정
-            type: 'application/json',
-        }));
+        try {
+            if (isDisabled) {
+                return;
+            }
 
-        if (isUpdate) {
-            await updatePost();
-        } else {
-            await createPost();
+            formData.append('data', new Blob([JSON.stringify(data)], {
+                // JSON 타입 지정
+                type: 'application/json',
+            }));
+
+            if (isUpdate) {
+                await updatePost();
+            } else {
+                await createPost();
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 

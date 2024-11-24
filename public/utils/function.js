@@ -35,6 +35,10 @@ export const convertToKUnit = (val) => {
     }
 }
 
+export const updateHelper = (helperElement, message = '') => {
+    helperElement.textContent = message;
+}
+
 export const focusOnElement = (elem) => {
     elem.focus();
 }
