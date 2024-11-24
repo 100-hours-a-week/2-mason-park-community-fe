@@ -39,11 +39,11 @@ const CommentItem = (data, isAuth, handler) => {
         button.classList.add("c-btn");
         button.textContent = text;
 
-        button.addEventListener("click", (e) => {
+        button.addEventListener("click", async (e) => {
             if (text === "수정") {
-                handler.update();
+                await handler.update();
             } else if (text === "삭제") {
-                handler.delete();
+                await handler.delete();
             }
         });
 

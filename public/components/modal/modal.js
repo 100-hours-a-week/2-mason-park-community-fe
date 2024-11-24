@@ -21,19 +21,15 @@ const Modal = (title, content, handler) => {
     const cancelButton = document.createElement('div');
     cancelButton.classList.add('modal-cancel-btn');
     cancelButton.textContent = "취소";
+    cancelButton.addEventListener('click', (e) => {
+        closeModal();
+    })
 
     const confirmButton = document.createElement('div');
     confirmButton.classList.add('modal-confirm-btn');
     confirmButton.textContent = "확인";
-
-    [confirmButton, cancelButton].forEach(button => {
-        button.addEventListener('click', async (e) => {
-            if (button.textContent === '확인') {
-                await handler();
-            } else {
-                closeModal();
-            }
-        });
+    confirmButton.addEventListener('click',  async (e) => {
+        await handler();
     })
 
     buttonContainer.appendChild(cancelButton);
