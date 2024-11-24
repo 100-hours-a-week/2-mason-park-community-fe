@@ -1,40 +1,36 @@
 import {appendChildElement, insertBeforeElement} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import PostItem from "../components/post/postItem.js"
-import {status, strings} from "../utils/constants.js";
+import {strings} from "../utils/constants.js";
 import {getPostsRequest} from "../api/post.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    let postCount = 0;
     const postWriteBtn = document.getElementById('post-write-btn');
 
-    const setPosts = async (offset=0, limit=5) => {
-        const getResponse = await getPostsRequest(offset, limit);
+    const getPosts = async (offset=0, limit=5) => {
+        const response = await getPostsRequest(offset, limit);
+        const result = await response.json();
 
-        if(!getResponse.ok) {
-            if (getResponse.status === status.UNAUTHORIZED) {
-                console.error('Unauthorized : Get Posts')
-            } else if (getResponse.status === status.INTERNAL_SERVER_ERROR) {
-                console.error('Internal Server Error : Get Posts');
-            }
+        if(!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
+            return;
         }
 
-        const getResult = await getResponse.json();
-        const posts = getResult.data;
+        postCount += result.data.length;
+        return result.data;
+    }
+
+    const setPosts = async (posts) => {
+        const blankTitle = document.querySelector('.blank-title');
+        postCount > 0 ? blankTitle.classList.add('none') : blankTitle.classList.remove('none');
 
         const container = document.querySelector('.container-column');
-        const blankTitle = document.querySelector('.blank-title');
-
-        if (posts.length > 0) {
-            blankTitle.classList.add('none');
-            posts.forEach(post => {
-                console.log(post);
-                appendChildElement(PostItem(
-                    post
-                ), container);
-            })
-        } else {
-            blankTitle.classList.remove('none');
-        }
+        posts.forEach(post => {
+            appendChildElement(PostItem(
+                post
+            ), container);
+        })
     }
 
     const setEventListener = () => {
@@ -51,9 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // 페이지의 맨 아래로 스크롤 했을 때
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 offset += limit;
-                await setPosts(offset, limit);
+                const posts = await getPosts(offset, limit);
+                await setPosts(posts);
             }
         }
+
         // 인피니티 스크롤
         window.addEventListener('scroll', infinityScrollEventHandler)
     }
@@ -64,7 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
             false,
             localStorage.getItem('profile_image')
         ), document.body)
-        await setPosts();
+
+        const posts = await getPosts();
+        await setPosts(posts);
+
         setEventListener();
     }
 
