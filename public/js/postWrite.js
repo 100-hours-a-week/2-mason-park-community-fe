@@ -1,12 +1,12 @@
-import {strings} from "../utils/constants.js";
-import {insertBeforeElement} from "../utils/function.js";
+import {limit, strings, validator} from "../utils/constants.js";
+import {insertBeforeElement, updateHelper} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {createPostRequest, getPostRequest, updatePostRequest} from "../api/post.js";
-import {status} from "../utils/constants.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     let postId;
     let isUpdate = false;
+    let isDisabled = true;
     const data = {
         'title': '',
         'content': '',
@@ -16,53 +16,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const helper = document.querySelector(".span-helper");
     const writeButton = document.querySelector('#write');
 
-    writeButton.addEventListener("click", async (e) => {
-
+    const submitPost = async () => {
         formData.append('data', new Blob([JSON.stringify(data)], {
             // JSON 타입 지정
             type: 'application/json',
         }));
 
         if (isUpdate) {
-            const updateResponse = await updatePostRequest(postId, formData);
-            if (!updateResponse.ok) {
-                if (updateResponse.status === status.BAD_REQUEST) {
-                    console.error('Bad Request : Update Post');
-                } else if (updateResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : Update Post');
-                } else if (updateResponse.status === status.FORBIDDEN) {
-                    console.error('Forbidden : Update Post');
-                } else if (updateResponse.status === status.NOT_FOUND) {
-                    console.error('Not Found : Update Post');
-                } else if (updateResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Update Post');
-                }
-                return;
-            }
-
-            const updateResult = await updateResponse.json();
-            location.href = `/posts/${updateResult.data.post_id}`;
-
+            await updatePost();
         } else {
-            const createResponse = await createPostRequest(formData);
-            if (!createResponse.ok) {
-                if (createResponse.status === status.BAD_REQUEST) {
-                    console.error('Bad Request : Create Post');
-                } else if (createResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : Create Post');
-                } else if (createResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Create Post');
-                }
-                return;
-            }
-
-            const createResult = await createResponse.json();
-            location.href = `/posts/${createResult.data.post_id}`;
+            await createPost();
         }
-    })
+    }
 
-    const updateHelper = (helperElement, message = '') => {
-        helperElement.textContent = message;
+    const createPost = async () => {
+        const response = await createPostRequest(formData);
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
+            return;
+        }
+
+        location.href = `/posts/${result.data.post_id}`;
+    }
+
+    const updatePost = async () => {
+        const response = await updatePostRequest(postId, formData);
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
+            return;
+        }
+
+        location.href = `/posts/${postId}`;
     }
 
     const validateData = () => {
@@ -71,17 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
             content
         } = data;
 
-        if (!data['title'] || !data['content']) {
-            updateHelper(helper, strings.TITLE_CONTENT_BLANK);
-        } else {
-            updateHelper(helper, strings.BLANK);
-        }
+        isDisabled = !(
+            title && validator.postTitle(title) &&
+            content && validator.postContent(content)
+        );
 
-        writeButton.disabled = !(
-            title &&
-            content
-        )
-        writeButton.style.backgroundColor = writeButton.disabled ? '#ACA0EB' : '#7F6AEE';
+        writeButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
+        writeButton.style.cursor = isDisabled ? 'default' : 'pointer';
     }
 
     const updateData = (e, key) => {
@@ -95,7 +79,38 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!file) {
             return;
         }
+
         formData.append('post_image', file);
+    }
+
+    const inputEventHandler = (e, id) => {
+        const value = e.target.value;
+
+        if (id === 'title') {
+            const input = document.querySelector('#title');
+            const isValid = validator.postTitle(value);
+            if (!value) {
+                updateHelper(helper, strings.TITLE_CONTENT_BLANK);
+            } else if (!isValid) {
+                input.value = value.substring(0, limit.TITLE_MAX_LEN + 1);
+                data[id] = value.substring(0, limit.TITLE_MAX_LEN + 1);
+            } else {
+                updateHelper(helper, strings.BLANK);
+            }
+        } else if (id === 'content') {
+            const input = document.querySelector('#content');
+            const isValid = validator.postContent(value);
+            if (!value) {
+                updateHelper(helper, strings.TITLE_CONTENT_BLANK);
+            } else if (!isValid) {
+                input.value = value.substring(0, limit.CONTENT_MAX_LEN + 1);
+                data[id] = value.substring(0, limit.CONTENT_MAX_LEN + 1);
+            } else {
+                updateHelper(helper, strings.BLANK);
+            }
+        }
+
+        updateData(e, id);
     }
 
     const addEventListenerInput = () => {
@@ -110,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             } else {
                 input.addEventListener('input', (e) => {
-                    updateData(e, id);
+                    inputEventHandler(e, id);
                 })
             }
         })
@@ -119,28 +134,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const checkUpdate = async () => {
         const pathname = window.location.pathname;
 
+        // URL Path로 수정 페이지인지 검사
         if (!pathname.includes(strings.MODIFY_URL)) {
             return;
         }
 
         isUpdate = true;
-        const title = document.querySelector('.h2-title');
-        title.textContent = strings.MODIFY_TITLE;
 
         postId = Number(pathname.split('/')[2]);
         const response = await getPostRequest(postId);
+        const result = await response.json();
 
-        const post = await response.json();
+        if (!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
+            return;
+        }
+
+        const title = document.querySelector('.h2-title');
+        title.textContent = strings.MODIFY_TITLE;
 
         const titleInput = document.querySelector('#title');
-        titleInput.value = post.data.title;
-        data['title'] = post.data.title;
+        titleInput.value = result.data.title;
+        data['title'] = result.data.title;
 
         const contentInput = document.querySelector('#content');
-        contentInput.value = post.data.content;
-        data['content'] = post.data.title;
+        contentInput.value = result.data.content;
+        data['content'] = result.data.content;
 
         validateData();
+    }
+
+    const setEventListener = () => {
+        addEventListenerInput();
+        writeButton.addEventListener("click", submitPost);
+        document.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
+                await submitPost();
+            }
+        })
     }
 
     const init = async () => {
@@ -149,9 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
             true,
             localStorage.getItem('profile_image')
         ), document.body)
-
-        addEventListenerInput();
-
+        setEventListener();
         // 등록 / 수정 체크
         await checkUpdate();
     }
