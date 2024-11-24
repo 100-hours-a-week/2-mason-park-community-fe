@@ -1,9 +1,11 @@
 import {images, status, strings, validator} from "../utils/constants.js";
-import {insertBeforeElement, openModal} from "../utils/function.js";
+import {insertBeforeElement, openModal, updateHelper} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {getMyProfile, updateMyProfile, uploadProfileImage, withdraw} from "../api/user.js";
+import {existNickname} from "../api/auth.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    let isDisabled = true;
     const formData = {
         'nickname': '',
         'profile_image': ''
@@ -14,37 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateUser = async () => {
         try {
+            if (isDisabled) {
+                return;
+            }
+
             formData['profile_image'] = localStorage.getItem("profile_image");
 
-            const updateResponse = await updateMyProfile(formData);
+            const response = await updateMyProfile(formData);
+            const result = await response.json();
 
-            if (!updateResponse.ok) {
-                if (updateResponse.status === status.BAD_REQUEST) {
-                    console.error('Bad Request : Update My Profile')
-                } else if (updateResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Update My Profile');
-                }
+            if (!response.ok) {
+                console.error(`${result.error} : ${result.message}`);
                 return;
             }
 
-            const updateResult = await updateResponse.json();
-
-            const getResponse = await getMyProfile();
-            if (!getResponse.ok) {
-                if (getResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : Get My Profile');
-                } else if (getResponse.status === status.NOT_FOUND) {
-                    console.error('Not Found : Get My Profile')
-                } else if (getResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Get My Profile');
-                }
-                return;
-            }
-
-            const getResult = await getResponse.json();
-            localStorage.setItem('profile_image', getResult.data.profile_image);
-            localStorage.setItem('nickname', getResult.data.nickname);
-
+            await setUserData();
             setMyProfile()
 
             const toast = document.querySelector("#toast");
@@ -53,26 +39,33 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 toast.classList.toggle('active');
             }, 2000);
-
         } catch (e) {
             console.error(e);
         }
+    }
+
+    const setUserData = async () => {
+        const response = await getMyProfile();
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
+            return;
+        }
+
+        localStorage.setItem('profile_image', result.data.profile_image);
+        localStorage.setItem('nickname', result.data.nickname);
     }
 
     modifyButton.addEventListener("click", updateUser);
 
     const deleteUser = async () => {
         try {
-            const deleteResponse = await withdraw();
+            const response = await withdraw();
+            const result = await response.json();
 
-            if (!deleteResponse.ok) {
-                if (deleteResponse.status === status.NOT_FOUND) {
-                    console.error('Not Found : Withdraw')
-                } else if (deleteResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : Withdraw')
-                } else if (deleteResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Withdraw');
-                }
+            if (!response.ok) {
+                console.error(`${result.error} : ${result.message}`);
                 return;
             }
 
@@ -92,11 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
-    // Helper Text 업데이트
-    const updateHelper = (helperElement, message = '') => {
-        helperElement.textContent = message;
-    }
-
     // Register Data 유효성 검사
     const validateData = () => {
         const {
@@ -104,12 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
             profileImg,
         } = formData;
 
-        modifyButton.disabled = !(
+        isDisabled = !(
             profileImg ||
-            nickname &&
-            validator.nickname(nickname)
+            nickname && validator.nickname(nickname)
         );
-        modifyButton.style.backgroundColor = modifyButton.disabled ? '#ACA0EB' : '#7F6AEE';
+        modifyButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
+        modifyButton.style.cursor = isDisabled ? 'default' : 'pointer';
     }
 
     const updateData = (e, key)  => {
@@ -137,21 +125,17 @@ document.addEventListener('DOMContentLoaded', () => {
         image.append('profile_image', file);
 
         const response = await uploadProfileImage(image);
+        const result = await response.json();
 
         if (!response.ok) {
-            if (response.status === status.INTERNAL_SERVER_ERROR) {
-                console.error('Internal Server Error : Upload Profile Image');
-            } else if (response.status === status.BAD_REQUEST) {
-                console.error('Bad Request : Upload Profile Image');
-            }
+            console.error(`${result.error} : ${result.message}`);
+            return;
         }
 
-        const json = await response.json();
-        const data = json.data;
-        localStorage.setItem('profile_image', data.profile_image);
+        localStorage.setItem('profile_image', result.data.profile_image);
     }
 
-    const inputEventHandler = (e, id) => {
+    const inputEventHandler = async (e, id) => {
         const helper = document.querySelector(".span-helper");
         const value = e.target.value;
 
@@ -163,8 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (value.length > strings.NICKNAME_INCLUDE_SPACE) {
                 updateHelper(helper, strings.NICKNAME_EXCEED_MAX_LEN);
             } else {
-                // TODO : 닉네임 중복 체크
-                updateHelper(helper, strings.BLANK);
+                const response = await existNickname(value);
+                if (response.status === status.CONFLICT) {
+                    updateHelper(helper, strings.NICKNAME_EXIST);
+                } else if (response.status === status.OK) {
+                    updateHelper(helper, strings.BLANK);
+                }
             }
         }
         updateData(e, id);

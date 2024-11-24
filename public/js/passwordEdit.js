@@ -1,9 +1,10 @@
 import {strings, status, validator} from "../utils/constants.js";
-import { insertBeforeElement } from "../utils/function.js";
+import {insertBeforeElement, updateHelper} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {updatePassword} from "../api/user.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    let isDisabled = true;
     const formData = {
         'password': '',
         'check-password': '',
@@ -11,27 +12,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const updateButton  = document.querySelector("#update");
 
-    // Helper Text 업데이트
-    const updateHelper = (helperElement, message = '') => {
-        helperElement.textContent = message;
-    }
-
     const passwordUpdate = async () => {
         try {
+            if (isDisabled) {
+                return;
+            }
+
             formData['password'] = window.btoa(formData['password']);
 
-            const updateResponse = await updatePassword(formData);
+            const response = await updatePassword(formData);
+            const result = await response.json();
 
-            if (!updateResponse.ok) {
-                if (updateResponse.status === status.BAD_REQUEST) {
-                    console.error('Bad Request : Password Update')
-                } else if (updateResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : Password Update')
-                } else if (updateResponse.status === status.NOT_FOUND) {
-                    console.error('Not Found : Password Update')
-                } else if (updateResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Password Update');
-                }
+            if (!response.ok) {
+                console.error(`${result.error} : ${result.message}`);
                 return;
             }
 
@@ -56,8 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const validateData = () => {
 
         const isValidPassword = validator.password(formData['password']);
-        updateButton.disabled = !(formData['password'] && isValidPassword && (formData['password'] === formData['check-password']));
-        updateButton.style.backgroundColor = updateButton.disabled ? '#ACA0EB' : '#7F6AEE';
+        isDisabled = !(formData['password'] && isValidPassword && (formData['password'] === formData['check-password']));
+
+        updateButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
+        updateButton.style.cursor = isDisabled ? 'default' : 'pointer';
     }
 
     const inputEventHandler = (e, id) => {
