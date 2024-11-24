@@ -1,10 +1,11 @@
-import {strings, status, validator} from "../utils/constants.js";
-import { insertBeforeElement } from "../utils/function.js";
+import {strings, validator} from "../utils/constants.js";
+import {insertBeforeElement, updateHelper} from "../utils/function.js";
 import Header from "../components/header/header.js";
 import {loginRequest} from "../api/auth.js";
 import {getMyProfile} from "../api/user.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    let isDisabled = true;
     const formData = {
         'email': '',
         'password': ''
@@ -13,47 +14,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginButton = document.querySelector("#login");
     const helper = document.querySelector("#helper");
 
-    // Helper Text 업데이트
-    const updateHelper = (helperElement, message = '') => {
-        helperElement.textContent = message;
-    }
 
     const login = async () => {
         try {
-            formData['password'] = window.btoa(formData['password']);
-
-            const loginResponse = await loginRequest(formData);
-            if (!loginResponse.ok) {
-                if (loginResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : Login')
-                } else if (loginResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : Login');
-                }
-                updateHelper(helper, strings.FAILED_LOGIN);
+            if (isDisabled) {
                 return;
             }
 
-            const userResponse = await getMyProfile();
-            if (!userResponse.ok) {
-                if (userResponse.status === status.UNAUTHORIZED) {
-                    console.error('Unauthorized : getMyProfile');
-                } else if (userResponse.status === status.INTERNAL_SERVER_ERROR) {
-                    console.error('Internal Server Error : getMyProfile');
-                }
+            formData['password'] = window.btoa(formData['password']);
+
+            const response = await loginRequest(formData);
+            const result = await response.json();
+            if (!response.ok) {
+                console.error(`${result.error} : ${result.message}`);
+                updateHelper(helper, strings.FAILED_LOGIN);
+                return;
             }
-
-            const user = await userResponse.json()
-
-            localStorage.setItem("profile_image", user.data.profile_image);
-            localStorage.setItem("user_id", user.data.user_id);
-            localStorage.setItem("email", user.data.email);
-            localStorage.setItem("nickname", user.data.nickname);
-            localStorage.setItem("is_authenticated", user.data.is_authenticated);
-
+            await setUserData();
             location.href = '/posts';
         } catch (e) {
             console.error(e);
         }
+    }
+
+    const setUserData = async () => {
+        const response = await getMyProfile();
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error(`${result.error} : ${result.message}`);
+            return;
+        }
+
+        localStorage.setItem("profile_image", result.data.profile_image);
+        localStorage.setItem("user_id", result.data.user_id);
+        localStorage.setItem("email", result.data.email);
+        localStorage.setItem("nickname", result.data.nickname);
+        localStorage.setItem("is_authenticated", result.data.is_authenticated);
     }
 
     // Login Data 업데이트
@@ -66,11 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const validateData = () => {
         const {email, password} = formData;
 
-        const isValidEmail = validator.email(email);
-        const isValidPassword = validator.password(password);
+        isDisabled = !(
+            email && validator.email(email) &&
+            password && validator.password(password)
+        );
 
-        loginButton.disabled = !(email && isValidEmail && password && isValidPassword);
-        loginButton.style.backgroundColor = loginButton.disabled ? '#ACA0EB' : '#7F6AEE';
+        loginButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
+        loginButton.style.cursor = isDisabled ? 'default' : 'pointer';
     }
 
     const inputEventHandler = (e, id) => {
@@ -109,6 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         loginButton.addEventListener("click", login);
+        document.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
+                await login();
+            }
+        })
     }
 
     const init = () => {

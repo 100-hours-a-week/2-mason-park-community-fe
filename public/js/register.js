@@ -19,12 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const register = async () => {
         try {
             if(isDisabled)  {
-                const toast = document.querySelector("#toast");
-
-                toast.classList.toggle('active');
-                setTimeout(() => {
-                    toast.classList.toggle('active');
-                }, 2000);
                 return;
             }
 
@@ -65,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             (formData['password'] === formData['check-password'])
         );
         registerButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
+        registerBuuton.style.cursor = isDisabled ? 'default' : 'pointer';
     }
 
     const updateData = (e, key) => {
