@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             (formData['password'] === formData['check-password'])
         );
         registerButton.style.backgroundColor = isDisabled ? '#ACA0EB' : '#7F6AEE';
-        registerBuuton.style.cursor = isDisabled ? 'default' : 'pointer';
+        registerButton.style.cursor = isDisabled ? 'default' : 'pointer';
     }
 
     const updateData = (e, key) => {
